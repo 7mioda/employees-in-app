@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Favorite from '@material-ui/icons/Favorite';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Star from '@material-ui/icons/Star';
 import withStyle from './withStyle';
 
 class Rater extends Component {
@@ -43,7 +43,7 @@ class Rater extends Component {
     for (let i = 0; i < 5; i += 1) {
       if (rating >= i && rating != null) {
         stars.push(
-          <Favorite
+          <Star
             key={i}
             onMouseOver={() => this.hoverStar(i)}
             onMouseOut={this.leaveStar}
@@ -52,7 +52,7 @@ class Rater extends Component {
         );
       } else {
         stars.push(
-          <FavoriteBorder
+          <StarBorder
             key={i}
             onMouseOver={() => this.hoverStar(i)}
             onMouseOut={this.leaveStar}
@@ -70,7 +70,7 @@ class Rater extends Component {
 }
 
 Rater.propTypes = {
-  className: PropTypes.object.isRequired,
+  className: PropTypes.string.isRequired,
   rating: PropTypes.number,
 };
 
