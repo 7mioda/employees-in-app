@@ -32,7 +32,7 @@ const Login = ({ className }) => (
               id="standard-with-placeholder"
               label="Email"
               placeholder="email@oyez.fr"
-              style={{ width: '98%' }}
+              className="text-field"
               margin="normal"
             />
             <br />
@@ -41,7 +41,7 @@ const Login = ({ className }) => (
               label="Mot de passe"
               type="password"
               margin="normal"
-              style={{ width: '98%', marginTop: '3px' }}
+              className="text-field"
             />
             <Button variant="contained" fullWidth className="button"> Login </Button>
           </CardContent>

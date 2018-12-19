@@ -8,10 +8,8 @@ export default (component) => styled(component)`
         box-shadow: 1px 1px 2px 2px #ced6e0;
     }
     .text-field {
-      height: 30px;
-      width: 100%;
-      padding-bottom: -20px;
-      margin-bottom: 15px;
+      width: 98%;
+      margin-top: 3px; 
     }
     .button {
       background-color: black;
