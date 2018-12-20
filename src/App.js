@@ -1,10 +1,10 @@
 import React from 'react';
-import Login from './Components/Login/Login';
+import EmployeeList from './Components/EmployeeList/EmployeeList';
 
 
 const App = () => (
   <div>
-    <Login />
+    <EmployeeList />
   </div>
 );
 export default App;

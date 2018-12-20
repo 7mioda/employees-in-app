@@ -4,6 +4,9 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import withStyle from './withStyle';
 
@@ -34,6 +37,13 @@ const Login = ({ className }) => (
               placeholder="email@oyez.fr"
               className="text-field"
               margin="normal"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
             />
             <br />
             <TextField
@@ -42,6 +52,13 @@ const Login = ({ className }) => (
               type="password"
               margin="normal"
               className="text-field"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment variant="filled" position="end">
+                    <VisibilityOff />
+                  </InputAdornment>
+                ),
+              }}
             />
             <Button variant="contained" fullWidth className="button"> Login </Button>
           </CardContent>
