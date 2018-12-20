@@ -1,10 +1,12 @@
 import React from 'react';
-import Login from './Components/Login/Login';
+import Header from './Components/Header/Header';
+import EmployeeList from './Components/EmployeeList/EmployeeList';
 
 
 const App = () => (
   <div>
-    <Login />
+    <Header />
+    <EmployeeList />
   </div>
 );
 export default App;

@@ -58,7 +58,7 @@ class EmployeeCard extends Component {
 }
 
 EmployeeCard.propTypes = {
-  className: PropTypes.object.isRequired,
+  className: PropTypes.string.isRequired,
   employee: PropTypes.object.isRequired,
 };
 
