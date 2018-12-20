@@ -1,8 +1,8 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
-const EmployeeCard = lazy(() => import('../EmployeeCard/EmployeeCard'));
+import EmployeeCard from '../EmployeeCard/EmployeeCard';
 
 
 class EmployeeList extends React.Component {
@@ -23,9 +23,7 @@ class EmployeeList extends React.Component {
      const { employees } = this.state;
      const emplyeesView = employees.map((element) => (
        <Grid item key={element.id}>
-         <Suspense fallback={<h4> Loading...</h4>}>
-           <EmployeeCard employee={element} />
-         </Suspense>
+         <EmployeeCard employee={element} />
        </Grid>
      ));
      return (
