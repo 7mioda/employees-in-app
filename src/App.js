@@ -1,12 +1,10 @@
 import React from 'react';
-import EmployeeCard from './Components/EmployeeCard/EmployeeCard';
-import Header from './Components/Header/Header';
+import Login from './Components/Login/Login';
 
 
 const App = () => (
   <div>
-    <Header />
-    <EmployeeCard employee={{ url: 'https://picsum.photos/200/300' }} />
+    <Login />
   </div>
 );
 export default App;
