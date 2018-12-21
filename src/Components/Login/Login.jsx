@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
@@ -12,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import withStyle from './withStyle';
 
 import api from '../../api';
+
 
 class Login extends PureComponent {
   constructor(props) {
@@ -28,7 +31,7 @@ class Login extends PureComponent {
   }
 
   handleLogin = async () => {
-    const { authorise } = this.props;
+    const { authorise, history } = this.props;
     const { email, password } = this.state;
     const { data } = await api({
       method: 'post',
@@ -40,7 +43,8 @@ class Login extends PureComponent {
     });
     const { token } = data;
     sessionStorage.setItem('token', token);
-    authorise();
+    await authorise();
+    history.push('/app/employee-list');
   }
 
   render() {
@@ -67,7 +71,6 @@ class Login extends PureComponent {
             <Card className="login-card" raised>
               <CardContent>
                 <TextField
-                  id="standard-with-placeholder"
                   label="Email"
                   value={email}
                   onChange={this.handleChange}
@@ -85,7 +88,6 @@ class Login extends PureComponent {
                 />
                 <br />
                 <TextField
-                  id="standard-with-placeholder"
                   label="Mot de passe"
                   type="password"
                   margin="normal"
@@ -124,4 +126,4 @@ Login.propTypes = {
   className: PropTypes.string.isRequired,
 };
 
-export default withStyle(Login);
+export default compose(withRouter, withStyle)(Login);
