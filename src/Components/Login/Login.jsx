@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import withStyle from './withStyle';
 
 
-const Login = ({ className }) => (
+const Login = ({ className, authorise }) => (
   <div className={className}>
     <Grid container spacing={24}>
       <Grid item xs={12}>
@@ -60,7 +60,7 @@ const Login = ({ className }) => (
                 ),
               }}
             />
-            <Button variant="contained" fullWidth className="button"> Login </Button>
+            <Button variant="contained" fullWidth className="button" onClick={authorise}> Login </Button>
           </CardContent>
         </Card>
       </Grid>
@@ -69,6 +69,7 @@ const Login = ({ className }) => (
 );
 
 Login.propTypes = {
+  authorise: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
 };
 

@@ -1,12 +1,25 @@
+/* eslint-disable no-shadow */
 import React from 'react';
-import Header from './Components/Header/Header';
-import EmployeeList from './Components/EmployeeList/EmployeeList';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { authorise } from './actions/authAction';
+import Login from './Components/Login/Login';
 
 
-const App = () => (
+const App = ({ authorise }) => (
   <div>
-    <Header />
-    <EmployeeList />
+    <Login authorise={authorise} />
   </div>
 );
-export default App;
+
+App.propTypes = {
+  authorise: PropTypes.func.isRequired,
+};
+
+const mapStateToprops = (state) => ({
+  isAuthenticated: state.isAuthenticated,
+  authorise: state.authorise,
+});
+
+export default connect(mapStateToprops, { authorise })(App);
