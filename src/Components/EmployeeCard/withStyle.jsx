@@ -7,6 +7,7 @@ export default (component) => styled(component)`
     }
     .media {
         height: 300px;
+        width: 300px;
     }
     .check-box {
         padding: 1px;

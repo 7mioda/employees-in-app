@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -5,8 +7,14 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
+import 'moment/locale/fr';
+
+
 import Rater from './Rater';
 import withStyle from './withStyle';
+
+moment.locale('fr');
 
 class EmployeeCard extends Component {
   constructor(props) {
@@ -22,18 +30,25 @@ class EmployeeCard extends Component {
     }
 
     render() {
-      const { className, employee: { url } } = this.props;
+      const {
+        className, employee: {
+          image, firstName, lastName, bio, hireDate, skills,
+        },
+      } = this.props;
       const { showDetails } = this.state;
       const content = showDetails ? (
-        <CardMedia
+        <div
           className="media"
-          image={url}
-          title="Contemplative Reptile"
-        />
+        >
+          <h5>{firstName} {lastName}</h5>
+          <p>{bio}</p>
+          <p>{firstName} est notre héro en : {skills.map((element) => element.name).toString()}</p>
+          <p> Il est oyezien depuis {moment(hireDate).fromNow()} </p>
+        </div>
       ) : (
         <CardMedia
           className="media"
-          image="https://picsum.photos/300/300"
+          image={image}
           title="Contemplative Reptile"
         />
       );

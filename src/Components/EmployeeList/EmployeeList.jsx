@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
+import api from '../../api';
 
 import EmployeeCard from '../EmployeeCard/EmployeeCard';
 
@@ -14,9 +14,11 @@ class EmployeeList extends React.Component {
   }
 
    componentDidMount = async () => {
-     const result = await axios.get('https://jsonplaceholder.typicode.com/albums/1/photos');
-     const { data } = result;
-     this.setState({ employees: data });
+     const { data: { employees } } = await api({
+       method: 'get',
+       url: '/employees',
+     });
+     this.setState({ employees });
    }
 
    render() {
