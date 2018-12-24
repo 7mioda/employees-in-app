@@ -44,7 +44,7 @@ class Login extends PureComponent {
     const { token } = data;
     sessionStorage.setItem('token', token);
     await authorise();
-    history.push('/app/employee-list');
+    history.push('/app/empolyee-managment');
   }
 
   render() {

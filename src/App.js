@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -8,6 +9,8 @@ import { authorise } from './actions/authAction';
 import PrivateRoute from './Components/Auth/PrivateRoute';
 import Login from './Components/Login/Login';
 import EmployeeList from './Components/EmployeeList/EmployeeList';
+import ManagmentList from './Components/Managment/ManagmentList';
+import AddEmployee from './Components/Managment/AddEmployee';
 import Header from './Components/Header/Header';
 
 
@@ -23,7 +26,13 @@ const App = ({ authorise, isAuthenticated }) => (
               <Header />
               <Switch>
                 <div style={{ width: '95%', marginTop: '80px', marginLeft: '2%' }}>
-                  <PrivateRoute path="/app/employee-list" component={EmployeeList} isAuthenticated={isAuthenticated} />
+                  <PrivateRoute path="/app/empolyee-managment" component={ManagmentList} isAuthenticated={isAuthenticated} />
+                  <Route
+                    path="/app/edit-employee/:empId"
+                    render={({ match: { params: { empId } } }) => <PrivateRoute component={AddEmployee} empId={empId} isAuthenticated={isAuthenticated} />}
+                  />
+                  <Route path="/app/employee-list" exact component={EmployeeList} isAuthenticated={isAuthenticated} />
+                  <PrivateRoute path="/app/add-employee" component={AddEmployee} isAuthenticated={isAuthenticated} />
                 </div>
               </Switch>
             </div>
