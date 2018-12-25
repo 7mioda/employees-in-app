@@ -12,8 +12,7 @@ import Button from '@material-ui/core/Button';
 import moment from 'moment';
 
 import AddSkill from './AddSkill';
-import api from '../../api';
-
+import { updateEmployee, addEmployee, getEmployee } from '../../api/employee';
 
 class AddEmployee extends PureComponent {
   constructor(props) {
@@ -30,17 +29,12 @@ class AddEmployee extends PureComponent {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     const { empId } = this.props;
     if (empId) {
-      api({
-        method: 'get',
-        url: `/employees/${empId}`,
-      }).then(async (data) => {
-        const { data: { employee } } = data;
-        this.setState({
-          ...employee,
-        });
+      const employee = await getEmployee(empId);
+      this.setState({
+        ...employee,
       });
     }
   }
@@ -57,39 +51,21 @@ class AddEmployee extends PureComponent {
     addEmployee = async () => {
       const { ...employee } = this.state;
       const { history } = this.props;
-      const { skills } = employee;
-      const skillsIds = skills.map((skill) => skill._id);
-      employee.skills = skillsIds;
-      await api({
-        method: 'post',
-        url: '/employees/add',
-        data: {
-          ...employee,
-        },
-      });
+      await addEmployee(employee);
       history.goBack();
     }
 
     updateEmployee = async () => {
       const { ...employee } = this.state;
       const { history } = this.props;
-      const { skills } = employee;
-      const skillsIds = skills.map((skill) => skill._id);
-      employee.skills = skillsIds;
-      await api({
-        method: 'post',
-        url: '/employees/update',
-        data: {
-          ...employee,
-        },
-      });
+      await updateEmployee(employee);
       history.goBack();
     }
 
     render() {
       const { empId } = this.props;
       const action = empId ? this.updateEmployee : this.addEmployee;
-      const actionName = empId ? 'Modifier': 'Ajouter';
+      const actionName = empId ? 'Modifier' : 'Ajouter';
       const {
         firstName, lastName, email, bio, skills, expYears, hireDate, image,
       } = this.state;
@@ -193,6 +169,7 @@ class AddEmployee extends PureComponent {
 
 AddEmployee.propTypes = {
   empId: PropTypes.string,
+  history: PropTypes.object,
 };
 
 export default withRouter(AddEmployee);

@@ -13,7 +13,6 @@ export default (component) => styled(component)`
   .search-icon {
     height: 100%;
     position: absolute;
-    pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center

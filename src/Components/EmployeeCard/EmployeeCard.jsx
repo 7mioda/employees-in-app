@@ -35,6 +35,7 @@ class EmployeeCard extends Component {
           image, firstName, lastName, bio, hireDate, skills,
         },
       } = this.props;
+      console.log(this.props);
       const { showDetails } = this.state;
       const content = showDetails ? (
         <div
@@ -43,7 +44,7 @@ class EmployeeCard extends Component {
           <h5>{firstName} {lastName}</h5>
           <p>{bio}</p>
           <p>{firstName} est notre héro en : {skills.map((element) => element.name).toString()}</p>
-          <p> Il est oyezien depuis {moment(hireDate).fromNow()} </p>
+          <p> Il est oyezien  {moment(hireDate).fromNow()} </p>
         </div>
       ) : (
         <CardMedia
@@ -57,8 +58,6 @@ class EmployeeCard extends Component {
           <Card className="card">
             <CardActionArea
               onClick={this.handleShowDetails}
-              onMouseEnter={this.handleShowDetails}
-              onMouseLeave={this.handleShowDetails}
             >
               {content}
             </CardActionArea>

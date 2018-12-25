@@ -18,7 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 
 import withStyle from './withStyle';
-import api from '../../api';
+import { addSkill, removeSkill } from '../../api/skill';
 
 class AddSkill extends PureComponent {
   constructor(props) {
@@ -48,14 +48,10 @@ class AddSkill extends PureComponent {
       const {
         skills, name, expYears, level,
       } = this.state;
-      const { data } = await api({
-        method: 'post',
-        url: 'skills/add',
-        data: { name, expYears, level },
-      });
-      const { skill: newSkill } = data;
+      const newSkill = await addSkill({ name, expYears, level });
+      console.log(newSkill);
       this.setState({
-        skills: [newSkill, ...skills],
+        skills: [...skills, newSkill],
         name: '',
         expYears: 0,
       });
@@ -68,10 +64,7 @@ class AddSkill extends PureComponent {
 
   removeSkill = async (skillId) => {
     try {
-      await api({
-        method: 'delete',
-        url: `/skills/delete/${skillId}`,
-      });
+      await removeSkill(skillId);
       const { skills } = this.state;
       const newSkills = skills.filter((element) => element._id !== skillId);
       this.setState({ skills: newSkills });

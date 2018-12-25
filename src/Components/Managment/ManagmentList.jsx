@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-underscore-dangle */
 import React, { PureComponent } from 'react';
@@ -13,38 +14,20 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 
-import api from '../../api';
+import { removeEmployee } from '../../api/employee';
 import withStyle from './withStyle';
 
 class ManagmentList extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      employees: [],
-    };
-  }
-
   componentDidMount() {
-    api({
-      method: 'get',
-      url: '/employees/',
-    }).then(async (data) => {
-      const { data: { employees } } = data;
-      this.setState({
-        employees,
-      });
-    });
+    const { getAllEmployees } = this.props;
+    getAllEmployees();
   }
 
   removeEmployee = async (empId) => {
     try {
-      await api({
-        method: 'delete',
-        url: `/employees/delete/${empId}`,
-      });
-      const { employees } = this.state;
-      const newEmployees = employees.filter((element) => element._id !== empId);
-      this.setState({ employees: newEmployees });
+      const { removeEmployee: remove } = this.props;
+      await removeEmployee(empId);
+      remove(empId);
     } catch (error) {
       console.log(error);
     }
@@ -52,8 +35,8 @@ class ManagmentList extends PureComponent {
 
 
   render() {
-    const { employees } = this.state;
-    const employeesView = employees.map((row) => (
+    const { filtredEmployees } = this.props;
+    const employeesView = filtredEmployees.map((row) => (
       <TableRow className="row" key={row._id}>
         <TableCell className="body" align="center">{row.firstName}</TableCell>
         <TableCell className="body" align="center">{row.lastName}</TableCell>
@@ -95,6 +78,8 @@ class ManagmentList extends PureComponent {
 
 ManagmentList.propTypes = {
   className: PropTypes.string.isRequired,
+  getAllEmployees: PropTypes.func,
+  filtredEmployees: PropTypes.array,
 };
 
 export default withStyle(ManagmentList);

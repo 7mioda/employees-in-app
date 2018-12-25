@@ -1,1 +1,4 @@
 export const AUTH = 'AUTH';
+export const ALL_EMPLOYEES = 'ALL_EMPLOYEES';
+export const REMOVE_EMPLOYEE = 'REMOVE_EMPLOYEE';
+export const CHANGE_SEARCH_CRITERIA = 'CHANGE_SEARCH_CRITERIA';
