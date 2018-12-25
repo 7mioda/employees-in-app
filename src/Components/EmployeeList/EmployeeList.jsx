@@ -1,39 +1,36 @@
-import React from 'react';
+/* eslint-disable no-underscore-dangle */
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import api from '../../api';
 
 import EmployeeCard from '../EmployeeCard/EmployeeCard';
 
 
-class EmployeeList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      employees: [],
-    };
+class EmployeeList extends PureComponent {
+  componentDidMount() {
+    const { getAllEmployees } = this.props;
+    getAllEmployees();
   }
 
-   componentDidMount = async () => {
-     const { data: { employees } } = await api({
-       method: 'get',
-       url: '/employees',
-     });
-     this.setState({ employees });
-   }
 
-   render() {
-     const { employees } = this.state;
-     const emplyeesView = employees.map((element) => (
-       <Grid item key={element.id}>
-         <EmployeeCard employee={element} />
-       </Grid>
-     ));
-     return (
-       <Grid container justify="center" spacing={16}>
-         { emplyeesView }
-       </Grid>
-     );
-   }
+  render() {
+    const { filtredEmployees } = this.props;
+    const emplyeesView = filtredEmployees.map((element) => (
+      <Grid item key={element._id}>
+        <EmployeeCard employee={element} />
+      </Grid>
+    ));
+    return (
+      <Grid container justify="center" spacing={16}>
+        { emplyeesView }
+      </Grid>
+    );
+  }
 }
+
+EmployeeList.propTypes = {
+  filtredEmployees: PropTypes.array.isRequired,
+  getAllEmployees: PropTypes.func.isRequired,
+};
 
 export default EmployeeList;

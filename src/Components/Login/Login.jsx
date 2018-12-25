@@ -13,7 +13,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import withStyle from './withStyle';
 
-import api from '../../api';
+import { login } from '../../api/user';
 
 
 class Login extends PureComponent {
@@ -33,15 +33,7 @@ class Login extends PureComponent {
   handleLogin = async () => {
     const { authorise, history } = this.props;
     const { email, password } = this.state;
-    const { data } = await api({
-      method: 'post',
-      url: 'users/login',
-      data: {
-        email,
-        password,
-      },
-    });
-    const { token } = data;
+    const token = await login({ email, password });
     sessionStorage.setItem('token', token);
     await authorise();
     history.push('/app/empolyee-managment');
