@@ -35,13 +35,12 @@ class EmployeeCard extends Component {
           image, firstName, lastName, bio, hireDate, skills,
         },
       } = this.props;
-      console.log(this.props);
       const { showDetails } = this.state;
       const content = showDetails ? (
         <div
-          className="media"
+          className="details"
         >
-          <h5>{firstName} {lastName}</h5>
+          <h4>{firstName} {lastName}</h4>
           <p>{bio}</p>
           <p>{firstName} est notre héro en : {skills.map((element) => element.name).toString()}</p>
           <p> Il est oyezien  {moment(hireDate).fromNow()} </p>

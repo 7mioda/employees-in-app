@@ -38,6 +38,7 @@ export const addEmployee = async (employee) => {
     const auxData = Object.entries(newEmployee);
     auxData.forEach((element) => {
       data.append(element[0], element[1]);
+      console.log(element[0], element[1]);
     });
     const result = await api({
       method: 'post',

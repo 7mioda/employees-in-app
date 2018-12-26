@@ -110,6 +110,7 @@ class AddSkill extends PureComponent {
                 value={name}
                 onChange={this.handleChange}
                 name="name"
+                className="input"
                 placeholder="compétence"
                 style={{ width: '98%' }}
               />
@@ -118,6 +119,7 @@ class AddSkill extends PureComponent {
                 value={level}
                 onChange={this.handleChange}
                 name="level"
+                className="input"
                 placeholder="Niveau"
                 style={{ width: '98%' }}
                 input={<FilledInput name="age" id="filled-age-simple" />}
@@ -130,6 +132,7 @@ class AddSkill extends PureComponent {
                 onChange={this.handleChange}
                 value={expYears}
                 name="expYears"
+                className="input"
                 endAdornment={<InputAdornment position="end">Année</InputAdornment>}
                 placeholder="Années d'experience"
                 style={{ width: '94%' }}
