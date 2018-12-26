@@ -112,7 +112,6 @@ class AddSkill extends PureComponent {
                 name="name"
                 placeholder="compétence"
                 style={{ width: '98%' }}
-                margin="normal"
               />
               <br />
               <Select
@@ -128,7 +127,6 @@ class AddSkill extends PureComponent {
                 <MenuItem value="expert">Expert</MenuItem>
               </Select>
               <FilledInput
-                margin="normal"
                 onChange={this.handleChange}
                 value={expYears}
                 name="expYears"

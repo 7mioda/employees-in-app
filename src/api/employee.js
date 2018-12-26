@@ -1,6 +1,8 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 import api from './api';
+
 
 export const getAllEmployees = async () => {
   try {
@@ -8,7 +10,6 @@ export const getAllEmployees = async () => {
       method: 'get',
       url: '/employees',
     });
-    console.log(employees);
     return employees;
   } catch (error) {
     return (error);
@@ -33,12 +34,15 @@ export const addEmployee = async (employee) => {
     const { skills } = newEmployee;
     const skillsIds = skills.map((skill) => skill._id);
     newEmployee.skills = skillsIds;
+    const data = new FormData();
+    const auxData = Object.entries(newEmployee);
+    auxData.forEach((element) => {
+      data.append(element[0], element[1]);
+    });
     const result = await api({
       method: 'post',
       url: '/employees/add',
-      data: {
-        ...newEmployee,
-      },
+      data,
     });
     return result;
   } catch (error) {
@@ -52,12 +56,15 @@ export const updateEmployee = async (employee) => {
     const { skills } = newEmployee;
     const skillsIds = skills.map((skill) => skill._id);
     newEmployee.skills = skillsIds;
+    const data = new FormData();
+    const auxData = Object.entries(newEmployee);
+    auxData.forEach((element) => {
+      data.append(element[0], element[1]);
+    });
     const result = await api({
       method: 'post',
       url: '/employees/update',
-      data: {
-        ...newEmployee,
-      },
+      data,
     });
     return result;
   } catch (error) {

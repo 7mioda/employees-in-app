@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { PureComponent } from 'react';
@@ -21,7 +23,7 @@ class AddEmployee extends PureComponent {
       firstName: '',
       lastName: '',
       email: '',
-      image: '',
+      image: null,
       bio: '',
       hireDate: null,
       skills: [],
@@ -134,6 +136,19 @@ class AddEmployee extends PureComponent {
                 onChange={this.handleChange}
                 style={{ width: '100%' }}
               />
+            </Grid>
+            <Grid item xs={6}>
+              <input
+                id="contained-button-file"
+                style={{ display: 'none' }}
+                onChange={(event) => { this.setState({ image: event.target.files[0] }); }}
+                type="file"
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" component="span">
+                  Upload
+                </Button>
+              </label>
             </Grid>
             <Grid item xs={12}>
               <TextField
