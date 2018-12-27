@@ -31,6 +31,22 @@ export default (component) => styled(component)`
     color: white;
   }
 
+  .main-paper {
+    width: 80%;
+    margin-top: 150px;
+    margin-left: 150px;
+  }
+
+  .sub-container {
+    width: 95%;
+    margin-left: 2.5%;
+    margin-top: 100px; 
+  }
+
+  .input {
+    height: 40px;
+  }
+
   .body {
     font-size: 14;
   }
