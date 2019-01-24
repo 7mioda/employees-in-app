@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export default (component) => styled(component)`
-
   .heading {
     font-size: 15px;
   }
@@ -40,9 +39,24 @@ export default (component) => styled(component)`
   .sub-container {
     width: 95%;
     margin-left: 2.5%;
-    margin-top: 100px; 
+    margin-top: 100px;
   }
 
+  .link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .icon {
+    float: right;
+    margin: 50px;
+    border-radius: 50%;
+  }
+
+  .icon:hover {
+    background-color: rgba(60, 64, 67, 0.2);
+    outline: none;
+  }
   .input {
     height: 40px;
   }
@@ -50,15 +64,41 @@ export default (component) => styled(component)`
   .body {
     font-size: 14;
   }
+
   .table {
     min-width: 700;
     width: 95%;
     margin: 2.5%;
   }
 
-  .row {
-    &:nth-of-type(odd) {
-      background-color: grey,
-    }
+  .action-icon {
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
   }
+
+  .action-icon:hover {
+    background-color: rgba(60, 64, 67, 0.2);
+    outline: none;
+  }
+
+  .row {
+    cursor: pointer;
+  }
+
+  .row:nth-child(2n+1) {
+    background-color: lightgrey;
+  }
+
+  .row:hover {
+    -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0,
+      0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0,
+      0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    z-index: 2;
+  }
+
+  
 `;

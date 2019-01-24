@@ -1,4 +1,4 @@
-import { AUTH } from '../actions/types';
+import { AUTH, LOGOUT } from '../actions/types';
 
 // Definig intial State
 const initialState = {
@@ -10,7 +10,13 @@ const authReducer = (state = initialState, action) => {
     case AUTH: {
       return {
         ...state,
-        isAuthenticated: !state.isAuthenticated,
+        isAuthenticated: true,
+      };
+    }
+    case LOGOUT: {
+      return {
+        ...state,
+        isAuthenticated: false,
       };
     }
     default:
