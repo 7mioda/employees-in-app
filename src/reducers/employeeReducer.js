@@ -1,33 +1,63 @@
 /* eslint-disable no-underscore-dangle */
-import { ALL_EMPLOYEES, CHANGE_SEARCH_CRITERIA, REMOVE_EMPLOYEE } from '../actions/types';
+import * as actions from '../actions/types';
 
 
 // Definig intial State
 const initialState = {
   employees: [],
-  searchCriteria: {},
+  searchCriteria: {
+    criteria: 'NAME',
+    value: '',
+  },
 };
 
 const employeeReducer = (state = initialState, action) => {
   const { payload } = action;
   switch (action.type) {
-    case ALL_EMPLOYEES: {
+    case actions.ALL_EMPLOYEES: {
       return {
         ...state,
         employees: payload,
       };
     }
-    case REMOVE_EMPLOYEE: {
+    case actions.ADD_EMPLOYEE: {
+      const { employees } = state;
+      return {
+        ...state,
+        employees: [payload, ...employees],
+      };
+    }
+    case actions.UPDATE_EMPLOYEE: {
+      const { employees } = state;
+      return {
+        ...state,
+        employees: employees.map((element) => {
+          if (element._id === payload._id) {
+            return payload;
+          }
+          return element;
+        }),
+      };
+    }
+    case actions.REMOVE_EMPLOYEE: {
       const { employees } = state;
       return {
         ...state,
         employees: employees.filter((element) => element._id !== payload),
       };
     }
-    case CHANGE_SEARCH_CRITERIA: {
+    case actions.CHANGE_SEARCH_CRITERIA: {
+      const { searchCriteria } = state;
       return {
         ...state,
-        searchCriteria: payload,
+        searchCriteria: { ...searchCriteria, criteria: payload },
+      };
+    }
+    case actions.CHANGE_SEARCH_KEYWORD: {
+      const { searchCriteria } = state;
+      return {
+        ...state,
+        searchCriteria: { ...searchCriteria, value: payload },
       };
     }
     default:

@@ -1,86 +1,89 @@
 /* eslint-disable no-shadow */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { getAllEmployees } from './actions/employeeAction';
 import { authorise } from './actions/authAction';
-import { changeSearchCriteria, getAllEmployees, removeEmployee } from './actions/employeeAction';
-import { getFiltredEmployees } from './selectors/employeesSelector';
 import PrivateRoute from './Components/Auth/PrivateRoute';
 import Login from './Components/Login/Login';
 import EmployeeList from './Components/EmployeeList/EmployeeList';
 import ManagmentList from './Components/Managment/ManagmentList';
 import AddEmployee from './Components/Managment/AddEmployee';
 import Header from './Components/Header/Header';
+import Modal from './Components/Modal/Modal';
+import LeftMenu from './Components/LeftMenu/LeftMenu';
+import LinearProgress from './Components/Progress/LinearProgress';
 
-
-const App = ({
-  authorise,
-  isAuthenticated, changeSearchCriteria, getAllEmployees, filtredEmployees, removeEmployee,
-}) => (
-  <div>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/login" render={() => <Login authorise={authorise} />} />
-        <Route
-          path="/app"
-          render={() => (
-            <div>
-              <Header changeSearchCriteria={changeSearchCriteria} />
-              <Switch>
-                <div style={{ width: '95%', marginTop: '80px', marginLeft: '2%' }}>
-                  <PrivateRoute
-                    path="/app/empolyee-managment"
-                    component={ManagmentList}
-                    getAllEmployees={getAllEmployees}
-                    removeEmployee={removeEmployee}
-                    filtredEmployees={filtredEmployees}
-                    isAuthenticated={isAuthenticated}
-                  />
-                  <Route
-                    path="/app/edit-employee/:empId"
-                    render={({ match: { params: { empId } } }) => (
-                      <PrivateRoute
-                        component={AddEmployee}
-                        empId={empId}
-                        isAuthenticated={isAuthenticated}
-                      />
-                    )}
-                  />
-                  <Route path="/app/employee-list" render={() => <EmployeeList getAllEmployees={getAllEmployees} filtredEmployees={filtredEmployees} isAuthenticated={isAuthenticated} />} />
-                  <PrivateRoute path="/app/add-employee" component={AddEmployee} isAuthenticated={isAuthenticated} />
-                </div>
-              </Switch>
-            </div>
-          )}
-        />
-      </Switch>
-    </BrowserRouter>
-  </div>
-);
+//---------------------------------------------
+//  Main Screen
+//---------------------------------------------
+const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
+  useEffect(() => {
+    authorise();
+    getAllEmployees();
+  }, []);
+  return (
+    <div>
+      <LinearProgress isFetching={isFetching} />
+      <BrowserRouter>
+        <React.Fragment>
+          <Switch>
+            <Route path="/login" render={() => <Login />} />
+            <Route
+              path="/app"
+              render={() => (
+                <React.Fragment>
+                  <LeftMenu />
+                  <Header />
+                  <div style={{ width: '95%', marginTop: '80px', marginLeft: '2%' }}>
+                    <Switch>
+                      <React.Fragment>
+                        <PrivateRoute
+                          path="/app/empolyee-managment"
+                          component={ManagmentList}
+                          isAuthenticated={isAuthenticated}
+                        />
+                        <Route
+                          path="/app/edit-employee/:empId"
+                          render={({ match: { params: { empId } } }) => (
+                            <PrivateRoute
+                              component={AddEmployee}
+                              empId={empId}
+                              isAuthenticated={isAuthenticated}
+                            />
+                          )}
+                        />
+                        <Route path="/app/employee-list" render={() => <EmployeeList />} />
+                        <PrivateRoute path="/app/add-employee" component={AddEmployee} isAuthenticated={isAuthenticated} />
+                      </React.Fragment>
+                    </Switch>
+                  </div>
+                </React.Fragment>
+              )}
+            />
+          </Switch>
+        </React.Fragment>
+      </BrowserRouter>
+      <Modal />
+    </div>
+  );
+};
 
 
 App.propTypes = {
-  authorise: PropTypes.func.isRequired,
-  changeSearchCriteria: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
   getAllEmployees: PropTypes.func.isRequired,
-  removeEmployee: PropTypes.func.isRequired,
-  filtredEmployees: PropTypes.array.isRequired,
+  authorise: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToprops = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  authorise: state.auth.authorise,
-  changeSearchCriteria: state.employees.changeSearchCriteria,
-  searchCriteria: state.employees.searchCriteria,
-  employees: state.employees.employees,
+  isFetching: state.ui.isFetching,
   getAllEmployees: state.employees.getAllEmployees,
-  removeEmployee: state.employees.removeEmployee,
-  filtredEmployees: getFiltredEmployees(state),
+  authorise: state.auth.authorise,
 });
 
-export default connect(mapStateToprops, {
-  authorise, changeSearchCriteria, getAllEmployees, removeEmployee,
-})(App);
+export default connect(mapStateToprops, { getAllEmployees, authorise })(App);

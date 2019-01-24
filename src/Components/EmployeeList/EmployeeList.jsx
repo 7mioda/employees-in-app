@@ -1,36 +1,39 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
-import React, { PureComponent } from 'react';
+import React, { lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 
-import EmployeeCard from '../EmployeeCard/EmployeeCard';
+import { getFiltredEmployees } from '../../selectors/employeesSelector';
+import EmployeeCardPlaceHolder from '../EmployeeCard/EmployeeCardPlaceHolder';
+const EmployeeCard = lazy(() => import('../EmployeeCard/EmployeeCard'));
 
 
-class EmployeeList extends PureComponent {
-  componentDidMount() {
-    const { getAllEmployees } = this.props;
-    getAllEmployees();
-  }
+const EmployeeList = ({ filtredEmployees }) => {
+  const emplyeesView = filtredEmployees.map((element) => (
 
-
-  render() {
-    const { filtredEmployees } = this.props;
-    const emplyeesView = filtredEmployees.map((element) => (
-      <Grid item key={element._id}>
+    <Grid item xs={2} key={element._id}>
+      <Suspense fallback={<EmployeeCardPlaceHolder />}>
         <EmployeeCard employee={element} />
-      </Grid>
-    ));
-    return (
-      <Grid container justify="center" spacing={16}>
-        { emplyeesView }
-      </Grid>
-    );
-  }
-}
+      </Suspense>
+    </Grid>
+  ));
+
+  return (
+    <Grid container justify="flex-start" spacing={16}>
+      { emplyeesView }
+    </Grid>
+  );
+};
 
 EmployeeList.propTypes = {
   filtredEmployees: PropTypes.array.isRequired,
-  getAllEmployees: PropTypes.func.isRequired,
 };
 
-export default EmployeeList;
+const mapStateToprops = (state) => ({
+  filtredEmployees: getFiltredEmployees(state),
+});
+
+
+export default connect(mapStateToprops)(EmployeeList);

@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 const getSearchFilter = (state) => state.employees.searchCriteria;
 const getEmployees = (state) => state.employees.employees;
 
+// calculates /  selectes employees from the user query/searchCriteria
 export const getFiltredEmployees = createSelector(
   [getSearchFilter, getEmployees],
   (searchCriteria, employees) => {
@@ -15,10 +16,9 @@ export const getFiltredEmployees = createSelector(
       case 'SKILLS':
         return employees.filter((employee) => {
           const { skills } = employee;
-          const result = skills.filter(
-            (skill) => skill.name.toUpperCase().includes(value.toUpperCase())
-          );
-          return result.length > 0;
+          const skillsName = skills.map((skill) => skill.name);
+          const result = skillsName.toString().toUpperCase().includes(value.toUpperCase());
+          return result;
         });
       default:
         return employees;
