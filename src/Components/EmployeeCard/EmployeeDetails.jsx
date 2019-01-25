@@ -11,11 +11,12 @@ moment.locale('fr');
 
 const EmployeeDetails = ({
   employee: {
-    firstName, lastName, bio, hireDate, skills,
+    firstName, lastName, bio, hireDate, skills, birthDate,
   },
 }) => (
   <div className="details">
     <h4>{firstName} {lastName}</h4>
+    <p>{firstName} a {moment(birthDate).fromNow(true)}</p>
     <p>{bio}</p>
     <p>{firstName} est notre héro en: </p>{skills.map((element) => <Chip style={{ margin: '2px' }} key={shortid.generate()} icon={<ImportantDevices />} label={element.name} />)}
     <p> {firstName} est oyezien  {moment(hireDate).fromNow()} </p>

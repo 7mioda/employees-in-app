@@ -17,14 +17,14 @@ import withStyle from './withStyle';
 
 const EmployeeCard = ({
   className, openModal, employee: {
-    image, firstName, lastName, bio, hireDate, skills,
+    image, firstName, lastName, bio, hireDate, skills, birthDate,
   },
 }) => {
   const [showDetails, toggleshowDetails] = useState(false);
   const body = (
     <EmployeeDetails
       employee={{
-        firstName, lastName, bio, hireDate, skills,
+        firstName, lastName, bio, hireDate, skills, birthDate,
       }}
     />
   );
