@@ -29,7 +29,7 @@ const AddEmployee = ({
 }) => {
   const employee = employees.find((element) => element._id === empId);
   const initialValues = employee ? { ...employee } : {
-    firstName: '', lastName: '', email: '', expYears: '', hireDate: moment(new Date()).format('YYYY-MM-DD'), image: '', bio: '',
+    firstName: '', lastName: '', email: '', expYears: '', hireDate: moment(new Date()).format('YYYY-MM-DD'), image: '', bio: '', birthDate: moment(new Date()).format('YYYY-MM-DD'),
   };
   const initaiSkills = employee ? employee.skills : [];
   const initailimage = employee ? employee.image : null;
@@ -56,7 +56,7 @@ const AddEmployee = ({
       >
         {({
           handleChange, values: {
-            firstName, lastName, email, expYears, hireDate, image, bio,
+            firstName, lastName, email, expYears, hireDate, image, bio, birthDate,
           },
         }) => (
           <Form>
@@ -82,7 +82,7 @@ const AddEmployee = ({
                     style={{ width: '100%' }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <FilledInput
                     placeholder="Email"
                     name="email"
@@ -90,6 +90,19 @@ const AddEmployee = ({
                     onChange={handleChange}
                     className="input"
                     style={{ width: '49%' }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FilledInput
+                    type="date"
+                    name="birthDate"
+                    className="input"
+                    value={moment(birthDate).format('YYYY-MM-DD')}
+                    onChange={handleChange}
+                    endAdornment={<InputAdornment position="end">Date de naissance</InputAdornment>}
+                    inputProps={{
+                      'aria-label': 'Weight',
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -174,7 +187,7 @@ const AddEmployee = ({
                     fullWidth
                     className="button"
                     onClick={() => action({
-                      firstName, lastName, email, expYears, hireDate, image: imageFile, bio, skills,
+                      firstName, lastName, email, expYears, hireDate, image: imageFile, bio, skills, birthDate,
                     })}
                   >
                     <SaveIcon style={{ marginRight: '2px' }} />
