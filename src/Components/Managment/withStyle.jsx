@@ -13,6 +13,18 @@ export default (component) => styled(component)`
     align-items: center;
   }
 
+  .tabel-cell {
+    position: relative;
+  }
+
+  .skill-icon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 20%;
+    right: 1%;
+  }
+
   .column {
     flex-basis: 33.33%;
   }

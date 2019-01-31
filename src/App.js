@@ -9,9 +9,9 @@ import { authorise } from './actions/authAction';
 import PrivateRoute from './Components/Auth/PrivateRoute';
 import Login from './Components/Login/Login';
 import EmployeeList from './Components/EmployeeList/EmployeeList';
-import ManagmentList from './Components/Managment/ManagmentList';
-import ClientsManagments from './Components/Managment/ClientsManagments';
-import ProjectsManagments from './Components/Managment/ProjectsManagment';
+import EmployeesManagmentList from './Components/Managment/EmployeesList';
+import ClientsList from './Components/Managment/ClientsList';
+import ProjectsList from './Components/Managment/ProjectsList';
 import AddEmployee from './Components/Managment/AddEmployee';
 import Header from './Components/Header/Header';
 import Modal from './Components/Modal/Modal';
@@ -21,6 +21,7 @@ import AddProject from './Components/Managment/AddProject';
 import AddClient from './Components/Managment/AddClient';
 import ClientDetails from './Components/Managment/ClientDetails';
 import SkillForm from './Components/Managment/SkillForm';
+import SkillsList from './Components/Managment/SkillsList';
 
 //---------------------------------------------
 //  Main Screen
@@ -48,17 +49,22 @@ const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
                       <React.Fragment>
                         <PrivateRoute
                           path="/app/empolyee-managment"
-                          component={ManagmentList}
+                          component={EmployeesManagmentList}
+                          isAuthenticated={isAuthenticated}
+                        />
+                        <Route
+                          path="/app/skill-managment"
+                          component={SkillsList}
                           isAuthenticated={isAuthenticated}
                         />
                         <PrivateRoute
                           path="/app/projects-managment"
-                          component={ProjectsManagments}
+                          component={ProjectsList}
                           isAuthenticated={isAuthenticated}
                         />
                         <PrivateRoute
                           path="/app/clients-managment"
-                          component={ClientsManagments}
+                          component={ClientsList}
                           isAuthenticated={isAuthenticated}
                         />
                         <Route

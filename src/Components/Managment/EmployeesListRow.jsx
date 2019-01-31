@@ -16,7 +16,9 @@ import { removeEmployee } from '../../actions/employeeAction';
 import { openModal } from '../../actions/uiAction';
 import withStyle from './withStyle';
 
-const ManagmentRow = ({ className, row, removeEmployee, openModal }) => (
+const EmployeeListRow = ({
+  className, row, removeEmployee, openModal,
+}) => (
   <TableRow className={`${className} row`} onClick={() => openModal({ title: 'Détails employee', body: <EmployeeDetails employee={row} /> })}>
     <TableCell className="body" align="center">{row.firstName}</TableCell>
     <TableCell className="body" align="center">{row.lastName}</TableCell>
@@ -31,7 +33,7 @@ const ManagmentRow = ({ className, row, removeEmployee, openModal }) => (
   </TableRow>
 );
 
-ManagmentRow.propTypes = {
+EmployeeListRow.propTypes = {
   row: PropTypes.object.isRequired,
   removeEmployee: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
@@ -43,4 +45,5 @@ const mapStateToprops = (state) => ({
   openModal: state.employees.openModal,
 });
 
-export default compose(withStyle, connect(mapStateToprops, { removeEmployee, openModal }))(ManagmentRow);
+export default compose(withStyle,
+  connect(mapStateToprops, { removeEmployee, openModal }))(EmployeeListRow);

@@ -21,13 +21,13 @@ const SkillForm = ({ className, addSkillSuggestion }) => {
     <Formik initialValues={{ name: '', logo }}>
       {({
         handleChange, values: {
-          name, logo,
+          name,
         },
       }) => (
         <div>
           <div className={className}>
             <Grid container className="sub-container" spacing={24}>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <FilledInput
                   value={name}
                   onChange={handleChange}
@@ -62,7 +62,7 @@ const SkillForm = ({ className, addSkillSuggestion }) => {
               </Grid>
               <Grid item xs={6}>
                 <Button size="small">Annuler</Button>
-                <Button size="small" color="primary" onClick={() => addSkillSuggestion({ name, logo })}> Ajouter</Button>
+                <Button size="small" color="primary" onClick={() => {console.log("ssss",logo); addSkillSuggestion({ name, logo });}}> Ajouter</Button>
               </Grid>
             </Grid>
           </div>

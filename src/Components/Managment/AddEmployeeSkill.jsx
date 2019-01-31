@@ -9,6 +9,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import { getEmployeeSkills } from '../../selectors/skillsSelector';
 import { removeSkill } from '../../actions/skillAction';
 import EmployeeSkillsList from './EmployeeSkillsList';
 import withStyle from './withStyle';
@@ -38,7 +39,7 @@ AddEmployeeSkill.propTypes = {
 };
 
 const mapStateToprops = (state) => ({
-  skills: state.skill.skills,
+  skills: getEmployeeSkills(state),
   removeSkill: state.skill.removeSkill,
 });
 
