@@ -10,11 +10,17 @@ import PrivateRoute from './Components/Auth/PrivateRoute';
 import Login from './Components/Login/Login';
 import EmployeeList from './Components/EmployeeList/EmployeeList';
 import ManagmentList from './Components/Managment/ManagmentList';
+import ClientsManagments from './Components/Managment/ClientsManagments';
+import ProjectsManagments from './Components/Managment/ProjectsManagment';
 import AddEmployee from './Components/Managment/AddEmployee';
 import Header from './Components/Header/Header';
 import Modal from './Components/Modal/Modal';
 import LeftMenu from './Components/LeftMenu/LeftMenu';
 import LinearProgress from './Components/Progress/LinearProgress';
+import AddProject from './Components/Managment/AddProject';
+import AddClient from './Components/Managment/AddClient';
+import ClientDetails from './Components/Managment/ClientDetails';
+import SkillForm from './Components/Managment/SkillForm';
 
 //---------------------------------------------
 //  Main Screen
@@ -45,6 +51,16 @@ const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
                           component={ManagmentList}
                           isAuthenticated={isAuthenticated}
                         />
+                        <PrivateRoute
+                          path="/app/projects-managment"
+                          component={ProjectsManagments}
+                          isAuthenticated={isAuthenticated}
+                        />
+                        <PrivateRoute
+                          path="/app/clients-managment"
+                          component={ClientsManagments}
+                          isAuthenticated={isAuthenticated}
+                        />
                         <Route
                           path="/app/edit-employee/:empId"
                           render={({ match: { params: { empId } } }) => (
@@ -55,8 +71,41 @@ const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
                             />
                           )}
                         />
+                        <Route
+                          path="/app/client-details/:clientId"
+                          render={({ match: { params: { clientId } } }) => (
+                            <PrivateRoute
+                              component={ClientDetails}
+                              clientId={clientId}
+                              isAuthenticated={isAuthenticated}
+                            />
+                          )}
+                        />
+                        <Route
+                          path="/app/edit-client/:clientId"
+                          render={({ match: { params: { clientId } } }) => (
+                            <PrivateRoute
+                              component={AddClient}
+                              clientId={clientId}
+                              isAuthenticated={isAuthenticated}
+                            />
+                          )}
+                        />
+                        <Route
+                          path="/app/edit-project/:projectId"
+                          render={({ match: { params: { projectId } } }) => (
+                            <PrivateRoute
+                              component={AddProject}
+                              projectId={projectId}
+                              isAuthenticated={isAuthenticated}
+                            />
+                          )}
+                        />
                         <Route path="/app/employee-list" render={() => <EmployeeList />} />
+                        <Route path="/app/add-skill" render={() => <SkillForm />} />
                         <PrivateRoute path="/app/add-employee" component={AddEmployee} isAuthenticated={isAuthenticated} />
+                        <PrivateRoute path="/app/add-client" component={AddClient} isAuthenticated={isAuthenticated} />
+                        <PrivateRoute path="/app/add-project" component={AddProject} isAuthenticated={isAuthenticated} />
                       </React.Fragment>
                     </Switch>
                   </div>

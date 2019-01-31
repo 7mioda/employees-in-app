@@ -17,28 +17,33 @@ import SkipPrevious from '@material-ui/icons/SkipPrevious';
 import moment from 'moment';
 import { Formik, Form } from 'formik';
 
-
+import AddExperience from './AddExperience';
 import { updateEmployee, addEmployee } from '../../actions/employeeAction';
 import { setAllSkills } from '../../actions/skillAction';
+import { setAllExperiences } from '../../actions/experienceAction';
 import withStyle from './withStyle';
-import AddSkill from './AddSkill';
+import AddEmployeeSkill from './AddEmployeeSkill';
 
 
 const AddEmployee = ({
-  empId, className, updateEmployee, addEmployee, history, employees, skills, setAllSkills,
+  empId, className, updateEmployee, addEmployee, history, employees, skills, setAllSkills, setAllExperiences, experiences,
 }) => {
   const employee = employees.find((element) => element._id === empId);
   const initialValues = employee ? { ...employee } : {
     firstName: '', lastName: '', email: '', expYears: '', hireDate: moment(new Date()).format('YYYY-MM-DD'), image: '', bio: '', birthDate: moment(new Date()).format('YYYY-MM-DD'),
   };
   const initaiSkills = employee ? employee.skills : [];
+  const initialExperiences = employee ? employee.experiences : [];
   const initailimage = employee ? employee.image : null;
   const [imageFile, setImageFile] = useState(initailimage);
   const handleImage = ({ target: { files } }) => {
     setImageFile(files[0]);
   };
 
-  useEffect(() => setAllSkills(initaiSkills), []);
+  useEffect(() => {
+    setAllSkills(initaiSkills);
+    setAllExperiences(initialExperiences);
+  }, []);
 
   const actionName = empId ? 'Modifier' : 'Ajouter';
   const action = (values) => {
@@ -168,7 +173,10 @@ const AddEmployee = ({
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <AddSkill />
+                  <AddEmployeeSkill />
+                </Grid>
+                <Grid item xs={12}>
+                  <AddExperience />
                 </Grid>
                 <Grid item xs={3}>
                   <Button
@@ -187,7 +195,7 @@ const AddEmployee = ({
                     fullWidth
                     className="button"
                     onClick={() => action({
-                      firstName, lastName, email, expYears, hireDate, image: imageFile, bio, skills, birthDate,
+                      firstName, lastName, email, expYears, hireDate, image: imageFile, bio, skills, birthDate, experiences,
                     })}
                   >
                     <SaveIcon style={{ marginRight: '2px' }} />
@@ -209,17 +217,21 @@ AddEmployee.propTypes = {
   history: PropTypes.object,
   employees: PropTypes.array,
   skills: PropTypes.array,
+  experiences: PropTypes.array,
   addEmployee: PropTypes.func.isRequired,
   updateEmployee: PropTypes.func.isRequired,
   setAllSkills: PropTypes.func.isRequired,
+  setAllExperiences: PropTypes.func.isRequired,
 };
 
 const mapStateToprops = (state) => ({
   employees: state.employees.employees,
   skills: state.skill.skills,
+  experiences: state.experiences.experiences,
   addEmployee: state.employees.addEmployee,
   updateEmployee: state.employees.updateEmployee,
   setAllSkills: state.skill.setAllSkills,
+  setAllExperiences: state.experiences.setAllExperiences,
 });
 
-export default compose(withRouter, withStyle, connect(mapStateToprops, { updateEmployee, addEmployee, setAllSkills }))(AddEmployee);
+export default compose(withRouter, withStyle, connect(mapStateToprops, { updateEmployee, addEmployee, setAllSkills, setAllExperiences }))(AddEmployee);

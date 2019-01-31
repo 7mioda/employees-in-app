@@ -8,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import EmployeeSkillForm from './EmployeeSkillForm';
 
 
 const SkillsList = ({ skills, onDelete }) => {
@@ -30,6 +31,7 @@ const SkillsList = ({ skills, onDelete }) => {
         </TableRow>
       </TableHead>
       <TableBody>
+        <EmployeeSkillForm />
         {
           skillsView
         }

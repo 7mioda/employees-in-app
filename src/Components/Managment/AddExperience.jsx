@@ -3,48 +3,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import classNames from 'classnames';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { removeSkill } from '../../actions/skillAction';
-import SkillForm from './SkillForm';
-import SkillsList from './SkillsList';
+import { removeExperience } from '../../actions/experienceAction';
+import { getAllExperiences as experienceSelector } from '../../selectors/experiencesSelector';
+import ExperiencesList from './ExperiencesList';
+import ExperienceForm from './ExperienceForm';
 import withStyle from './withStyle';
 
-const AddSkill = ({ className, skills, removeSkill }) => (
+const AddExperience = ({ className, experiences, removeExperience }) => (
   <div className={className}>
     <ExpansionPanel defaultExpanded>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <div className="column">
-          <Typography className="heading">Compétences</Typography>
+          <Typography className="heading">Expérience Professionnelles</Typography>
         </div>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className="details">
-        <div className="double-column">
-          {skills.length > 0 && <SkillsList skills={skills} onDelete={removeSkill} />}
-        </div>
-        <div className={classNames('column', 'helper')}>
-          <SkillForm />
-        </div>
+        <ExperiencesList experiences={experiences} onDelete={removeExperience} />
+        <ExperienceForm />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   </div>
 );
 
 
-AddSkill.propTypes = {
+AddExperience.propTypes = {
   className: PropTypes.string.isRequired,
-  skills: PropTypes.array.isRequired,
-  removeSkill: PropTypes.func.isRequired,
+  experiences: PropTypes.array,
+  removeExperience: PropTypes.func,
 };
 
-const mapStateToprops = (state) => ({
-  skills: state.skill.skills,
-  removeSkill: state.skill.removeSkill,
+const mapStateToProps = (state) => ({
+  experiences: experienceSelector(state),
+  removeExperience: state.experiences.removeExperience,
 });
 
-export default compose(withStyle, connect(mapStateToprops, { removeSkill }))(AddSkill);
+export default compose(withStyle, connect(mapStateToProps, { removeExperience }))(AddExperience);
