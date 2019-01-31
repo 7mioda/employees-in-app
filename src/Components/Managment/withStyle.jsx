@@ -59,6 +59,7 @@ export default (component) => styled(component)`
   }
   .input {
     height: 40px;
+    width: 100%;
   }
 
   .body {
@@ -100,5 +101,33 @@ export default (component) => styled(component)`
     z-index: 2;
   }
 
+  .card {
+    display: flex;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    flex: 1 0 auto;
+  }
+
+  .cover {
+    width: 151px;
+  }
+
+  .controls: {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    padding-bottom: 15px;
+  }
+
+  .play-icon: {
+    height: 38px;
+    width: 38px;
+  }
   
 `;

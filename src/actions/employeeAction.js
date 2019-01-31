@@ -24,9 +24,11 @@ export const setNewEmployee = (employee) => ({
 
 export const addEmployee = (data) => {
   const newEmployee = { ...data };
-  const { skills } = newEmployee;
+  const { skills, experiences } = newEmployee;
   const skillsIds = skills.map((skill) => skill._id);
+  const experiencesIds = experiences.map((experience) => experience._id);
   newEmployee.skills = skillsIds;
+  newEmployee.experiences = experiencesIds;
   return ({
     type: types.API,
     payload: {
@@ -49,9 +51,11 @@ export const setUpdatedEmployee = (employee) => ({
 
 export const updateEmployee = (data) => {
   const toUpdateEmployee = { ...data };
-  const { skills } = toUpdateEmployee;
+  const { skills, experiences } = toUpdateEmployee;
   const skillsIds = skills.map((skill) => skill._id);
+  const experiencesIds = experiences.map((experience) => experience._id);
   toUpdateEmployee.skills = skillsIds;
+  toUpdateEmployee.experiences = experiencesIds;
   return ({
     type: types.API,
     payload: {

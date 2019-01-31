@@ -5,6 +5,7 @@ import * as actions from '../actions/types';
 // Definig intial State
 const initialState = {
   skills: [],
+  skillsSuggestion: [],
 };
 
 const skillsReducer = (state = initialState, action) => {
@@ -28,6 +29,26 @@ const skillsReducer = (state = initialState, action) => {
       return {
         ...state,
         skills: skills.filter((element) => element._id !== payload),
+      };
+    }
+    case actions.ALL_SKILLS_SUGGESTION: {
+      return {
+        ...state,
+        skillsSuggestion: payload,
+      };
+    }
+    case actions.ADD_SKILL_SUGGESTION: {
+      const { skillsSuggestion } = state;
+      return {
+        ...state,
+        skillsSuggestion: [payload, ...skillsSuggestion],
+      };
+    }
+    case actions.REMOVE_SKILL_SUGGESTION: {
+      const { skillsSuggestion } = state;
+      return {
+        ...state,
+        skillsSuggestion: skillsSuggestion.filter((element) => element._id !== payload),
       };
     }
     default:

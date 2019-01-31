@@ -1,76 +1,84 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-shadow */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import FilledInput from '@material-ui/core/FilledInput';
-import Typography from '@material-ui/core/Typography';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import { Formik } from 'formik';
 
-import { addSkill } from '../../actions/skillAction';
+import { addSkillSuggestion } from '../../actions/skillAction';
 import withStyle from './withStyle';
 
-const SkillForm = ({ className, addSkill }) => (
-  <Formik initialValues={{ name: '', level: '', expYears: '' }}>
-    {({
-      handleChange, values: {
-        name, level, expYears,
-      },
-    }) => (
-      <div>
-        <div className={className}>
-          <Typography variant="caption">Ajouter une compétences</Typography>
-          <br />
-          <FilledInput
-            value={name}
-            onChange={handleChange}
-            name="name"
-            className="input"
-            placeholder="compétence"
-            style={{ width: '98%' }}
-          />
-          <br />
-          <Select
-            value={level}
-            onChange={handleChange}
-            name="level"
-            className="input"
-            placeholder="Niveau"
-            style={{ width: '98%' }}
-            input={<FilledInput name="age" id="filled-age-simple" />}
-          >
-            <MenuItem value="beginner">Débutant</MenuItem>
-            <MenuItem value="intermediate">Intermédiaire</MenuItem>
-            <MenuItem value="expert">Expert</MenuItem>
-          </Select>
-          <FilledInput
-            onChange={handleChange}
-            value={expYears}
-            name="expYears"
-            className="input"
-            endAdornment={<InputAdornment position="end">Année</InputAdornment>}
-            placeholder="Années d'experience"
-            style={{ width: '94%' }}
-          />
-          <Button size="small">Annuler</Button>
-          <Button size="small" color="primary" onClick={() => addSkill({ name, level, expYears })}> Ajouter</Button>
-        </div>
-      </div>)
-    }
-  </Formik>
-);
+const SkillForm = ({ className, addSkillSuggestion }) => {
+  const [logo, setLogo] = useState('');
+  const handleLogo = ({ target: { files } }) => {
+    setLogo(files[0]);
+  };
+  return (
+    <Formik initialValues={{ name: '', logo }}>
+      {({
+        handleChange, values: {
+          name, logo,
+        },
+      }) => (
+        <div>
+          <div className={className}>
+            <Grid container className="sub-container" spacing={24}>
+              <Grid item xs={6}>
+                <FilledInput
+                  value={name}
+                  onChange={handleChange}
+                  name="name"
+                  className="input"
+                  placeholder="compétence"
+                  style={{ width: '98%' }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FilledInput
+                  placeholder="Logo"
+                  name="logo"
+                  className="input"
+                  value={logo}
+                  onChange={handleChange}
+                  style={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <input
+                  id="contained-button-file"
+                  style={{ display: 'none' }}
+                  onChange={handleLogo}
+                  type="file"
+                />
+                <label htmlFor="contained-button-file">
+                  <Button variant="contained" component="span">
+                  Upload
+                  </Button>
+                </label>
+              </Grid>
+              <Grid item xs={6}>
+                <Button size="small">Annuler</Button>
+                <Button size="small" color="primary" onClick={() => addSkillSuggestion({ name, logo })}> Ajouter</Button>
+              </Grid>
+            </Grid>
+          </div>
+        </div>)
+      }
+    </Formik>
+  );
+};
 
 
 SkillForm.propTypes = {
   className: PropTypes.string.isRequired,
-  addSkill: PropTypes.func.isRequired,
+  addSkillSuggestion: PropTypes.func.isRequired,
 };
 const mapStateToprops = (state) => ({
-  addSkill: state.skill.addSkill,
+  addSkillSuggestion: state.skill.addSkillSuggestion,
 });
 
-export default compose(withStyle, connect(mapStateToprops, { addSkill }))(SkillForm);
+export default compose(withStyle, connect(mapStateToprops, { addSkillSuggestion }))(SkillForm);
