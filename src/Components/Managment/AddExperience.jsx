@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -8,24 +9,28 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AddIcon from '@material-ui/icons/AddToPhotos';
 
 import { removeExperience } from '../../actions/experienceAction';
+import { openModal } from '../../actions/uiAction';
 import { getAllExperiences as experienceSelector } from '../../selectors/experiencesSelector';
 import ExperiencesList from './ExperiencesList';
 import ExperienceForm from './ExperienceForm';
 import withStyle from './withStyle';
 
-const AddExperience = ({ className, experiences, removeExperience }) => (
+const AddExperience = ({ className, experiences, removeExperience, openModal }) => (
   <div className={className}>
     <ExpansionPanel defaultExpanded>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <div className="column">
-          <Typography className="heading">Expérience Professionnelles</Typography>
+          <Typography className="heading">
+             Expérience Professionnelles
+          </Typography>
         </div>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className="details">
+        <AddIcon onClick={() => openModal({ title: 'Ajouter une experience', body: <ExperienceForm /> })} />
         <ExperiencesList experiences={experiences} onDelete={removeExperience} />
-        <ExperienceForm />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   </div>
@@ -41,6 +46,7 @@ AddExperience.propTypes = {
 const mapStateToProps = (state) => ({
   experiences: experienceSelector(state),
   removeExperience: state.experiences.removeExperience,
+  openModal: state.ui.openModal,
 });
 
-export default compose(withStyle, connect(mapStateToProps, { removeExperience }))(AddExperience);
+export default compose(withStyle, connect(mapStateToProps, { removeExperience, openModal }))(AddExperience);

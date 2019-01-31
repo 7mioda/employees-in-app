@@ -1,8 +1,11 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-shadow */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +15,7 @@ import { getAllProjects } from '../../actions/projectAction';
 import ProjectCard from './ProjectCard';
 import withStyle from './withStyle';
 
-const ProjectsManagment = ({ className, projects, getAllProjects }) => {
+const ProjectsList = ({ className, projects, getAllProjects }) => {
   useEffect(() => {
     getAllProjects();
   }, []);
@@ -34,10 +37,16 @@ const ProjectsManagment = ({ className, projects, getAllProjects }) => {
   );
 };
 
+ProjectsList.propTypes = {
+  className: PropTypes.string.isRequired,
+  projects: PropTypes.array.isRequired,
+  getAllProjects: PropTypes.func.isRequired,
+};
+
 const mapStateToprops = (state) => ({
   projects: state.projects.projects,
   getAllProjects: state.projects.getAllProjects,
 });
 
 
-export default compose(withStyle, connect(mapStateToprops, { getAllProjects }))(ProjectsManagment);
+export default compose(withStyle, connect(mapStateToprops, { getAllProjects }))(ProjectsList);

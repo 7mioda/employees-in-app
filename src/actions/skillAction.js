@@ -25,6 +25,9 @@ export const addSkillSuggestion = (data) => ({
     method: 'post',
     url: 'skills/add',
     data,
+    meta: {
+      header: 'multipart/form-data',
+    },
     success: ({ skill }) => setNewSkillSuggestion(skill),
   },
 });
@@ -39,7 +42,7 @@ export const removeSkillSuggestion = (skillSuggestion) => ({
   payload: {
     method: 'delete',
     url: `/skills/delete/${skillSuggestion}`,
-    success: () => unsetSkill(skillSuggestion),
+    success: () => unsetSkillSuggestion(skillSuggestion),
   },
 });
 

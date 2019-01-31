@@ -12,9 +12,13 @@ import EmployeeSkillForm from './EmployeeSkillForm';
 
 
 const SkillsList = ({ skills, onDelete }) => {
+  console.log(skills);
   const skillsView = skills.map((element) => (
     <TableRow key={element._id}>
-      <TableCell>{element.name}</TableCell>
+      <TableCell className="tabel-cell">
+        {element.skill.name}
+        <img className="skill-icon" src={element.skill.logo} alt=""/>
+      </TableCell>
       <TableCell>{element.level}</TableCell>
       <TableCell>{element.expYears}</TableCell>
       <TableCell><DeleteOutline onClick={() => onDelete(element._id)} /></TableCell>

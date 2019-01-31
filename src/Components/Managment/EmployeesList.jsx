@@ -12,12 +12,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 
-import ManagmentRow from './ManagmentRow';
+import EmployeesListRow from './EmployeesListRow';
 import { getFiltredEmployees } from '../../selectors/employeesSelector';
 import withStyle from './withStyle';
 
 const ManagmentList = ({ filtredEmployees, className }) => {
-  const employeesView = filtredEmployees.map((row) => <ManagmentRow key={row._id} row={row} />);
+  const employeesView = filtredEmployees.map((row) => <EmployeesListRow key={row._id} row={row} />);
   return (
     <Paper className={className}>
       <NavLink className="link" to="/app/add-employee">

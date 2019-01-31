@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import FilledInput from '@material-ui/core/FilledInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
@@ -132,4 +131,4 @@ const mapStateToprops = (state) => ({
   projects: state.projects.projects,
 });
 
-export default compose(withRouter, withStyle, connect(mapStateToprops, { addExperience }))(ExperienceForm);
+export default compose(withStyle, connect(mapStateToprops, { addExperience }))(ExperienceForm);
