@@ -1,6 +1,9 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import AddCircle from '@material-ui/icons/AddCircle';
@@ -10,7 +13,7 @@ import { getAllClients } from '../../actions/clientAction';
 import ClientCard from './ClientCard';
 import withStyle from './withStyle';
 
-const ClientsManagment = ({ className, clients, getAllClients }) => {
+const ClientList = ({ className, clients, getAllClients }) => {
   useEffect(() => {
     getAllClients();
   }, []);
@@ -24,11 +27,17 @@ const ClientsManagment = ({ className, clients, getAllClients }) => {
       <NavLink className="link" to="/app/add-client">
         <AddCircle fontSize="large" className="icon" />
       </NavLink>
-      <Grid container justify="flex-start" spacing={16}>
+      <Grid container style={{ marginLeft: '1%' }} justify="flex-start" spacing={16}>
         {clientsView}
       </Grid>
     </Paper>
   );
+};
+
+ClientList.propTypes = {
+  className: PropTypes.string,
+  clients: PropTypes.array.isRequired,
+  getAllClients: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -36,4 +45,4 @@ const mapStateToProps = (state) => ({
   getAllClients: state.clients.getAllClients,
 });
 
-export default compose(withStyle, connect(mapStateToProps, { getAllClients }))(ClientsManagment);
+export default compose(withStyle, connect(mapStateToProps, { getAllClients }))(ClientList);

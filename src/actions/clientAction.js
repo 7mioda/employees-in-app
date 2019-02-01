@@ -59,6 +59,9 @@ export const updateClient = (data) => ({
     method: 'post',
     url: '/clients/update',
     data,
+    meta: {
+      header: 'multipart/form-data',
+    },
     success: ({ client }) => setUpdatedClient(client),
   },
 });

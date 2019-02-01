@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-shadow */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -6,7 +8,6 @@ import { compose } from 'redux';
 import { NavLink } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
@@ -16,17 +17,20 @@ import withStyle from './withStyle';
 
 const ProjectCard = ({
   className, project: {
-    _id, name, description, client, beginDate, endDate,
-  }, removeProject,
+    _id, name,
+  }, client, removeProject,
 }) => (
   <Card className={className}>
     <div className="details">
+      <div className="controls">
+        <img style={{ height: '25px', width: '25px' }} src={client.logo} alt="" />
+      </div>
       <CardContent className="content">
         <Typography component="h5" variant="h5">
           {name}
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
-          {client}
+          {client.name}
         </Typography>
       </CardContent>
       <div className="controls">
@@ -34,22 +38,19 @@ const ProjectCard = ({
         <DeleteOutline className="action-icon" onClick={(event) => { event.stopPropagation(); removeProject(_id); }} />
       </div>
     </div>
-    <CardMedia
-      className="cover"
-      image="/static/images/cards/live-from-space.jpg"
-      title="Live from space album cover"
-    />
   </Card>
 );
 
 ProjectCard.propTypes = {
   className: PropTypes.string.isRequired,
   project: PropTypes.object.isRequired,
+  client: PropTypes.object.isRequired,
   removeProject: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, props) => ({
   removeProject: state.projects.removeProjects,
+  client: state.clients.clients.find((client) => client._id === props.project.client),
 });
 
 export default compose(withStyle, connect(mapStateToProps, { removeProject }))(ProjectCard);

@@ -21,7 +21,7 @@ const ClientDetails = (props) => {
   return (
     <div className={className}>
       <AddClient clientId={client._id} />
-      <Grid container justify="flex-start" spacing={24}>
+      <Grid container style={{ padding: '4%' }} justify="flex-start" spacing={24}>
         {projectsView}
       </Grid>
     </div>

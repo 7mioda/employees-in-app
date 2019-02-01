@@ -30,7 +30,7 @@ const ProjectsList = ({ className, projects, getAllProjects }) => {
       <NavLink className="link" to="/app/add-project">
         <AddCircle fontSize="large" className="icon" />
       </NavLink>
-      <Grid container justify="flex-start" spacing={16}>
+      <Grid container style={{ marginLeft: '1%' }} justify="flex-start" spacing={16}>
         { projectsView }
       </Grid>
     </Paper>

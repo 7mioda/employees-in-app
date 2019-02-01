@@ -130,11 +130,9 @@ export default (component) => styled(component)`
     width: 151px;
   }
 
-  .controls: {
-    display: flex;
-    align-items: center;
-    padding-left: 15px;
-    padding-bottom: 15px;
+  .controls {
+    align-self: flex-end;
+    margin: 5px 5px 0 0;
   }
 
   .play-icon: {

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-shadow */
@@ -141,4 +143,5 @@ const mapStateToprops = (state, props) => ({
   client: state.clients.clients.find((client) => client._id === props.clientId),
 });
 
-export default compose(withRouter, withStyle, connect(mapStateToprops, { addClient, updateClient }))(AddClient);
+export default compose(withRouter, withStyle,
+  connect(mapStateToprops, { addClient, updateClient }))(AddClient);
