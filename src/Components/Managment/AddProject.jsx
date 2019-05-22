@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-shadow */
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 
@@ -45,14 +45,48 @@ const AddProject = ({
     }
     history.goBack();
   };
+  const validate = (values) => {
+    const errors = {};
+    if (!values.name) {
+      errors.name = 'Nom projet obligatoir';
+    }
+    if (!moment(values.beginDate).isValid()) {
+      errors.beginDate = 'Format date invalide';
+    }
+    if (!moment(values.endDate).isValid()) {
+      errors.endDate = 'Format date invalide';
+    }
+    if (!moment(values.beginDate).isBefore(values.endDate)) {
+      errors.endDate = 'Format date invalide';
+      errors.beginDate = 'Format date invalide';
+    }
+    if (!values.client) {
+      errors.client = 'client obligatoir';
+    }
+    if (!values.description) {
+      errors.description = 'description obligatoire';
+    }
+    return errors;
+  };
+
   return (
-    <Formik initialValues={initialValues}>
+    <Formik
+      initialValues={initialValues}
+      validate={validate}
+      onSubmit={({
+        name, description, beginDate, endDate, client,
+      }) => action({
+        name, description, beginDate, endDate, client,
+      })}
+    >
       {({
         handleChange, values: {
           name, description, beginDate, endDate, client,
         },
+        errors,
+        touched,
       }) => (
-        <div className={className}>
+        <Form className={className}>
           <Grid container className="sub-container" spacing={24}>
             <Grid item xs={12}>
               <Typography variant="caption">Ajouter un projet</Typography>
@@ -65,6 +99,9 @@ const AddProject = ({
                 className="input"
                 placeholder="Nom du projet"
               />
+              {errors.name && touched.name ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.name}</small>
+              ) : null}
             </Grid>
             <Grid item xs={6}></Grid>
             <Grid item xs={6}>
@@ -79,6 +116,9 @@ const AddProject = ({
                   'aria-label': 'Weight',
                 }}
               />
+              {errors.beginDate && touched.beginDate ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.beginDate}</small>
+              ) : null}
             </Grid>
             <Grid item xs={6}>
               <FilledInput
@@ -92,11 +132,15 @@ const AddProject = ({
                   'aria-label': 'Weight',
                 }}
               />
+              {errors.endDate && touched.endDate ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.endDate}</small>
+              ) : null}
             </Grid>
             <Grid item xs={6}>
               <Select
                 value={client}
                 onChange={handleChange}
+                style={{ paddingLeft: '30%' }}
                 name="client"
                 className="input"
                 placeholder="Client"
@@ -104,6 +148,9 @@ const AddProject = ({
               >
                 {clientsItems}
               </Select>
+              {errors.client && touched.client ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.client}</small>
+              ) : null}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -117,21 +164,22 @@ const AddProject = ({
                 placeholder="Description ..."
                 variant="filled"
               />
+              {errors.description && touched.description ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.description}</small>
+              ) : null}
             </Grid>
             <Grid item xs={6}>
               <Button size="small">Annuler</Button>
               <Button
                 size="small"
+                type="submit"
                 color="primary"
-                onClick={() => action({
-                  name, description, beginDate, endDate, client,
-                })}
               >
                 { actionName }
               </Button>
             </Grid>
           </Grid>
-        </div>)
+        </Form>)
       }
     </Formik>
   );
@@ -146,13 +194,12 @@ AddProject.propTypes = {
   clients: PropTypes.array.isRequired,
   project: PropTypes.object,
   projectId: PropTypes.string,
+  history: PropTypes.object,
 };
-const mapStateToprops = (state, props) => ({
-  addProject: state.projects.addProject,
-  updateProject: state.projects.updateProject,
+const mapStateToProps = (state, props) => ({
   clients: state.clients.clients,
-  getAllClients: state.clients.getAllClients,
   project: state.projects.projects.find((element) => element._id === props.projectId),
 });
 
-export default compose(withRouter, withStyle, connect(mapStateToprops, { addProject, getAllClients, updateProject }))(AddProject);
+export default compose(withRouter, withStyle,
+  connect(mapStateToProps, { addProject, getAllClients, updateProject }))(AddProject);

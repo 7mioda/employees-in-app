@@ -12,7 +12,6 @@ import EmployeeSkillForm from './EmployeeSkillForm';
 
 
 const SkillsList = ({ skills, onDelete }) => {
-  console.log(skills);
   const skillsView = skills.map((element) => (
     <TableRow key={element._id}>
       <TableCell className="tabel-cell">
@@ -35,7 +34,7 @@ const SkillsList = ({ skills, onDelete }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        <EmployeeSkillForm />
+        <EmployeeSkillForm skills={skills} />
         {
           skillsView
         }

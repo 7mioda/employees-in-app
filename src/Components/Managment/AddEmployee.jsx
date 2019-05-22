@@ -1,11 +1,8 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable no-shadow */
-/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import FilledInput from '@material-ui/core/FilledInput';
@@ -26,22 +23,23 @@ import AddEmployeeSkill from './AddEmployeeSkill';
 
 
 const AddEmployee = ({
-  empId, className, updateEmployee, addEmployee, history, employees, skills, setAllSkills, setAllExperiences, experiences,
+  empId, className, updateEmployee, addEmployee, history, employees,
+  skills, setAllSkills, setAllExperiences, experiences,
 }) => {
   const employee = employees.find((element) => element._id === empId);
   const initialValues = employee ? { ...employee } : {
     firstName: '', lastName: '', email: '', expYears: '', hireDate: moment(new Date()).format('YYYY-MM-DD'), image: '', bio: '', birthDate: moment(new Date()).format('YYYY-MM-DD'),
   };
-  const initaiSkills = employee ? employee.skills : [];
+  const initialSkills = employee ? employee.skills : [];
   const initialExperiences = employee ? employee.experiences : [];
-  const initailimage = employee ? employee.image : null;
-  const [imageFile, setImageFile] = useState(initailimage);
+  const initialImage = employee ? employee.image : null;
+  const [imageFile, setImageFile] = useState(initialImage);
   const handleImage = ({ target: { files } }) => {
     setImageFile(files[0]);
   };
 
   useEffect(() => {
-    setAllSkills(initaiSkills);
+    setAllSkills(initialSkills);
     setAllExperiences(initialExperiences);
   }, []);
 
@@ -54,15 +52,56 @@ const AddEmployee = ({
     }
     history.push('/app/empolyee-managment');
   };
+
+  const validate = (values) => {
+    const errors = {};
+    if (!values.firstName) {
+      errors.firstName = 'Nom est obligatoir';
+    }
+    if (!values.lastName) {
+      errors.lastName = 'Prénom est obligatoir';
+    }
+    if (!values.email) {
+      errors.email = 'address email obligatoire';
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+        values.email
+      )
+    ) {
+      errors.email = 'address email invalide';
+    }
+    if (!values.expYears || values.expYears < 0) {
+      errors.expYears = 'Années d"experience invalide';
+    }
+    if (!moment(values.birthDate).isValid() || !moment(values.birthDate).isBefore(new Date())) {
+      errors.birthDate = 'Format date invalide';
+    }
+    if (!moment(values.hireDate).isValid() || !moment(values.hireDate).isBefore(new Date())) {
+      errors.hireDate = 'Format date invalide';
+    }
+    if (!values.bio) {
+      errors.bio = 'description obligatoire';
+    }
+    return errors;
+  };
+
   return (
     <div className={className}>
       <Formik
         initialValues={initialValues}
+        validate={validate}
+        onSubmit={(values) => action({
+          ...values,
+          skills,
+          experiences,
+        })}
       >
         {({
           handleChange, values: {
             firstName, lastName, email, expYears, hireDate, image, bio, birthDate,
           },
+          errors,
+          touched,
         }) => (
           <Form>
             <Paper className="main-paper" elevation={1}>
@@ -76,6 +115,9 @@ const AddEmployee = ({
                     className="input"
                     style={{ width: '100%' }}
                   />
+                  {errors.firstName && touched.firstName ? (
+                    <small style={{ color: 'red', paddingTop: '3px' }}>{errors.firstName}</small>
+                  ) : null}
                 </Grid>
                 <Grid item xs={6}>
                   <FilledInput
@@ -86,6 +128,9 @@ const AddEmployee = ({
                     className="input"
                     style={{ width: '100%' }}
                   />
+                  {errors.lastName && touched.lastName ? (
+                    <small style={{ color: 'red', paddingTop: '3px' }}>{errors.lastName}</small>
+                  ) : null}
                 </Grid>
                 <Grid item xs={6}>
                   <FilledInput
@@ -94,8 +139,11 @@ const AddEmployee = ({
                     value={email}
                     onChange={handleChange}
                     className="input"
-                    style={{ width: '49%' }}
+                    style={{ width: '49%', paddingRight: '50%' }}
                   />
+                  {errors.email && touched.email ? (
+                    <small style={{ color: 'red', paddingTop: '3px' }}>{errors.email}</small>
+                  ) : null}
                 </Grid>
                 <Grid item xs={6}>
                   <FilledInput
@@ -109,6 +157,9 @@ const AddEmployee = ({
                       'aria-label': 'Weight',
                     }}
                   />
+                  {errors.birthDate && touched.birthDate ? (
+                    <small style={{ color: 'red', paddingTop: '3px' }}>{errors.birthDate}</small>
+                  ) : null}
                 </Grid>
                 <Grid item xs={6}>
                   <FilledInput
@@ -122,6 +173,9 @@ const AddEmployee = ({
                       'aria-label': 'Weight',
                     }}
                   />
+                  {errors.expYears && touched.expYears ? (
+                    <small style={{ color: 'red', paddingTop: '3px' }}>{errors.expYears}</small>
+                  ) : null}
                 </Grid>
                 <Grid item xs={6}>
                   <FilledInput
@@ -135,6 +189,9 @@ const AddEmployee = ({
                       'aria-label': 'Weight',
                     }}
                   />
+                  {errors.hireDate && touched.hireDate ? (
+                    <small style={{ color: 'red', paddingTop: '3px' }}>{errors.hireDate}</small>
+                  ) : null}
                 </Grid>
                 <Grid item xs={6}>
                   <FilledInput
@@ -168,9 +225,12 @@ const AddEmployee = ({
                     rows="3"
                     label="Description"
                     placeholder="Description ..."
-                    style={{ width: '80%' }}
+                    style={{ width: '80%', paddingRight: '19%' }}
                     variant="filled"
                   />
+                  {errors.bio && touched.bio ? (
+                    <small style={{ color: 'red', paddingTop: '3px' }}>{errors.bio}</small>
+                  ) : null}
                 </Grid>
                 <Grid item xs={12}>
                   <AddEmployeeSkill />
@@ -194,9 +254,7 @@ const AddEmployee = ({
                     variant="contained"
                     fullWidth
                     className="button"
-                    onClick={() => action({
-                      firstName, lastName, email, expYears, hireDate, image: imageFile, bio, skills, birthDate, experiences,
-                    })}
+                    type="submit"
                   >
                     <SaveIcon style={{ marginRight: '2px' }} />
                     {actionName}
@@ -224,14 +282,13 @@ AddEmployee.propTypes = {
   setAllExperiences: PropTypes.func.isRequired,
 };
 
-const mapStateToprops = (state) => ({
+const mapStateToProps = (state) => ({
   employees: state.employees.employees,
   skills: state.skill.skills,
   experiences: state.experiences.experiences,
-  addEmployee: state.employees.addEmployee,
-  updateEmployee: state.employees.updateEmployee,
-  setAllSkills: state.skill.setAllSkills,
-  setAllExperiences: state.experiences.setAllExperiences,
 });
 
-export default compose(withRouter, withStyle, connect(mapStateToprops, { updateEmployee, addEmployee, setAllSkills, setAllExperiences }))(AddEmployee);
+export default compose(withRouter, withStyle, connect(mapStateToProps,
+  {
+    updateEmployee, addEmployee, setAllSkills, setAllExperiences,
+  }))(AddEmployee);

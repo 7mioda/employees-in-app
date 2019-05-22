@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
@@ -19,9 +19,32 @@ import { login as loginAction } from '../../actions/authAction';
 
 const Login = ({ isAuthenticated, loginAction }) => {
   if (isAuthenticated) { return <Redirect to="/app/empolyee-managment" />; }
+  const validate = (values) => {
+    const errors = {};
+    if (!values.password) {
+      errors.password = 'Mot de passe  obligatoir';
+    }
+    if (!values.email) {
+      errors.email = 'address email obligatoire';
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+        values.email
+      )
+    ) {
+      errors.email = 'address email incorrecte';
+    }
+    return errors;
+  };
   return (
-    <Formik initialValues={{ email: '', password: '' }}>
-      {({ handleChange, values: { email, password } }) => (
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      validate={validate}
+      onSubmit={({ email, password }) => loginAction({ email, password })}
+    >
+      {({
+        handleChange, values: { email, password }, errors,
+        touched,
+      }) => (
         <Form>
           <Card className="login-card" raised>
             <CardContent>
@@ -41,6 +64,9 @@ const Login = ({ isAuthenticated, loginAction }) => {
                   ),
                 }}
               />
+              {errors.email && touched.email ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.email}</small>
+              ) : null}
               <br />
               <TextField
                 label="Mot de passe"
@@ -58,11 +84,14 @@ const Login = ({ isAuthenticated, loginAction }) => {
                   ),
                 }}
               />
+              {errors.password && touched.password ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.password}</small>
+              ) : null}
               <Button
                 variant="contained"
                 fullWidth
+                type="submit"
                 className="button"
-                onClick={() => loginAction({ email, password })}
               >
               Login
               </Button>
@@ -78,9 +107,8 @@ Login.propTypes = {
   loginAction: PropTypes.func.isRequired,
 };
 
-const mapStateToprops = (state) => ({
-  authorise: state.auth.authorise,
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToprops, { loginAction })(Login);
+export default connect(mapStateToProps, { loginAction })(Login);

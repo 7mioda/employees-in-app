@@ -6,6 +6,10 @@ export const getAllClients = () => ({
     url: '/clients',
     method: 'get',
     success: ({ clients }) => setAllClients(clients),
+    meta: {
+      namespace: 'clients',
+      check: true,
+    },
   },
 });
 

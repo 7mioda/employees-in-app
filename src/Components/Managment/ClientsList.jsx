@@ -27,7 +27,7 @@ const ClientList = ({ className, clients, getAllClients }) => {
       <NavLink className="link" to="/app/add-client">
         <AddCircle fontSize="large" className="icon" />
       </NavLink>
-      <Grid container style={{ marginLeft: '1%' }} justify="flex-start" spacing={16}>
+      <Grid container style={{ padding: '1%' }} justify="flex-start" spacing={16}>
         {clientsView}
       </Grid>
     </Paper>
@@ -42,7 +42,6 @@ ClientList.propTypes = {
 
 const mapStateToProps = (state) => ({
   clients: state.clients.clients,
-  getAllClients: state.clients.getAllClients,
 });
 
 export default compose(withStyle, connect(mapStateToProps, { getAllClients }))(ClientList);

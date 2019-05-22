@@ -17,19 +17,19 @@ import withStyle from './withStyle';
 
 const EmployeeCard = ({
   className, openModal, employee: {
-    image, firstName, lastName, bio, hireDate, skills, birthDate,
+    image, firstName, lastName, bio, hireDate, skills, birthDate, experiences,
   },
 }) => {
   const [showDetails, toggleshowDetails] = useState(false);
   const body = (
     <EmployeeDetails
       employee={{
-        firstName, lastName, bio, hireDate, skills, birthDate,
+        firstName, lastName, bio, hireDate, skills, birthDate, image, experiences,
       }}
     />
   );
   return (
-    <div className={className} onClick={() => openModal({ title: '', media: image, body })} onMouseLeave={() => toggleshowDetails(false)} onMouseEnter={() => toggleshowDetails(true)}>
+    <div className={className} onClick={() => openModal({ title: '', body })} onMouseLeave={() => toggleshowDetails(false)} onMouseEnter={() => toggleshowDetails(true)}>
       <CSSTransition
         in={showDetails}
         timeout={300}
@@ -38,7 +38,6 @@ const EmployeeCard = ({
       >
         <EmployeeSnippet user={{ firstName, lastName }} />
       </CSSTransition>
-      
       <Card className="card">
         <CardActionArea>
           <EmployeePhoto
@@ -57,8 +56,5 @@ EmployeeCard.propTypes = {
   openModal: PropTypes.func.isRequired,
 };
 
-const mapStateToprops = (state) => ({
-  openModal: state.ui.openModal,
-});
 
-export default compose(withStyle, connect(mapStateToprops, { openModal }))(EmployeeCard);
+export default compose(withStyle, connect(null, { openModal }))(EmployeeCard);

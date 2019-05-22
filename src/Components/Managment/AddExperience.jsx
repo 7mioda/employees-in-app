@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-shadow */
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -18,7 +18,9 @@ import ExperiencesList from './ExperiencesList';
 import ExperienceForm from './ExperienceForm';
 import withStyle from './withStyle';
 
-const AddExperience = ({ className, experiences, removeExperience, openModal }) => (
+const AddExperience = ({
+  className, experiences, removeExperience, openModal,
+}) => (
   <div className={className}>
     <ExpansionPanel defaultExpanded>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -29,7 +31,12 @@ const AddExperience = ({ className, experiences, removeExperience, openModal }) 
         </div>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className="details">
-        <AddIcon onClick={() => openModal({ title: 'Ajouter une experience', body: <ExperienceForm /> })} />
+        <AddIcon
+          style={{
+            position: 'absolute', right: '1%', top: '0', cursor: 'pointer',
+          }}
+          onClick={() => openModal({ title: 'Ajouter une experience', body: <ExperienceForm /> })}
+        />
         <ExperiencesList experiences={experiences} onDelete={removeExperience} />
       </ExpansionPanelDetails>
     </ExpansionPanel>
@@ -41,12 +48,12 @@ AddExperience.propTypes = {
   className: PropTypes.string.isRequired,
   experiences: PropTypes.array,
   removeExperience: PropTypes.func,
+  openModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   experiences: experienceSelector(state),
-  removeExperience: state.experiences.removeExperience,
-  openModal: state.ui.openModal,
 });
 
-export default compose(withStyle, connect(mapStateToProps, { removeExperience, openModal }))(AddExperience);
+export default compose(withStyle,
+  connect(mapStateToProps, { removeExperience, openModal }))(AddExperience);

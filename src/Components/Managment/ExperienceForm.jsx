@@ -108,7 +108,9 @@ const ExperienceForm = ({
               <Button
                 size="small"
                 color="primary"
-                onClick={() => addExperience({ position, description, beginDate, endDate, project })}
+                onClick={() => addExperience({
+                  position, description, beginDate, endDate, project,
+                })}
               >
                 Ajouter
               </Button>
@@ -127,7 +129,6 @@ ExperienceForm.propTypes = {
   addExperience: PropTypes.func,
 };
 const mapStateToprops = (state) => ({
-  addExperience: state.experiences.addExperience,
   projects: state.projects.projects,
 });
 

@@ -53,7 +53,6 @@ Modal.propTypes = {
 
 const mapStateToprops = (state) => ({
   open: state.ui.modalStatus,
-  closeModal: state.ui.closeModal,
   modalContent: state.ui.modalContent,
 });
 

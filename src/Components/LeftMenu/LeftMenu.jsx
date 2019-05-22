@@ -1,4 +1,6 @@
+/* eslint-disable no-shadow */
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
@@ -14,6 +16,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ViewModule from '@material-ui/icons/ViewModule';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import IconButton from '@material-ui/core/IconButton';
+import SkillIcon from '@material-ui/icons/HowToReg';
 
 import { closeMenu } from '../../actions/uiAction';
 
@@ -60,14 +63,24 @@ const LeftMenu = ({ leftMenu, closeMenu }) => (
           <ListItemText primary="Employées" />
         </ListItem>
       </NavLink>
+      <NavLink to="/app/skill-managment" style={{ textDecoration: 'none' }}>
+        <ListItem button>
+          <ListItemIcon><SkillIcon /></ListItemIcon>
+          <ListItemText primary="Compétences" />
+        </ListItem>
+      </NavLink>
     </List>
   </Drawer>
 );
 
-const mapStateToprops = (state) => ({
+LeftMenu.propTypes = {
+  leftMenu: PropTypes.bool,
+  closeMenu: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
   leftMenu: state.ui.leftMenu,
-  closeMenu: state.ui.closeMenu,
 
 });
 
-export default connect(mapStateToprops, { closeMenu })(LeftMenu);
+export default connect(mapStateToProps, { closeMenu })(LeftMenu);

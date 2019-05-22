@@ -49,7 +49,6 @@ ProjectCard.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  removeProject: state.projects.removeProjects,
   client: state.clients.clients.find((client) => client._id === props.project.client),
 });
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux'; 
+import { compose } from 'redux';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -40,7 +40,6 @@ AddEmployeeSkill.propTypes = {
 
 const mapStateToprops = (state) => ({
   skills: getEmployeeSkills(state),
-  removeSkill: state.skill.removeSkill,
 });
 
 export default compose(withStyle, connect(mapStateToprops, { removeSkill }))(AddEmployeeSkill);

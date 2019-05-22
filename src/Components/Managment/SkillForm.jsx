@@ -1,30 +1,52 @@
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-shadow */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import * as R from 'ramda';
 import FilledInput from '@material-ui/core/FilledInput';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 
 import { addSkillSuggestion } from '../../actions/skillAction';
 import withStyle from './withStyle';
 
-const SkillForm = ({ className, addSkillSuggestion }) => {
+const SkillForm = (props) => {
+  const { className, addSkillSuggestion, skillsSuggestion } = props;
   const [logo, setLogo] = useState('');
   const handleLogo = ({ target: { files } }) => {
     setLogo(files[0]);
   };
+  const validate = (values) => {
+    const errors = {};
+    const skills = [...skillsSuggestion];
+    const names = skills.map((skillSuggestion) => skillSuggestion.name.trim().toUpperCase());
+    if (R.includes(values.name.trim().toUpperCase(), names)) {
+      errors.name = 'Compétences existe déja';
+    }
+    return errors;
+  };
+
   return (
-    <Formik initialValues={{ name: '', logo }}>
+    <Formik
+      initialValues={{ name: '', logo }}
+      validate={validate}
+      onSubmit={(values) => {
+        addSkillSuggestion({ name: values.name, logo });
+      }}
+    >
       {({
         handleChange, values: {
           name,
         },
+        errors,
+        touched,
       }) => (
-        <div>
+        <Form>
           <div className={className}>
             <Grid container className="sub-container" spacing={24}>
               <Grid item xs={12}>
@@ -36,6 +58,9 @@ const SkillForm = ({ className, addSkillSuggestion }) => {
                   placeholder="compétence"
                   style={{ width: '98%' }}
                 />
+                {errors.name && touched.name ? (
+                  <small style={{ color: 'red', paddingTop: '3px' }}>{errors.name}</small>
+                ) : null}
               </Grid>
               <Grid item xs={6}>
                 <FilledInput
@@ -61,12 +86,12 @@ const SkillForm = ({ className, addSkillSuggestion }) => {
                 </label>
               </Grid>
               <Grid item xs={6}>
-                <Button size="small">Annuler</Button>
-                <Button size="small" color="primary" onClick={() => {console.log("ssss",logo); addSkillSuggestion({ name, logo });}}> Ajouter</Button>
+                <Button size="small"> Annuler </Button>
+                <Button size="small" color="primary" type="submit" disabled={errors.length}> Ajouter</Button>
               </Grid>
             </Grid>
           </div>
-        </div>)
+        </Form>)
       }
     </Formik>
   );
@@ -76,9 +101,7 @@ const SkillForm = ({ className, addSkillSuggestion }) => {
 SkillForm.propTypes = {
   className: PropTypes.string.isRequired,
   addSkillSuggestion: PropTypes.func.isRequired,
+  skillsSuggestion: PropTypes.array,
 };
-const mapStateToprops = (state) => ({
-  addSkillSuggestion: state.skill.addSkillSuggestion,
-});
 
-export default compose(withStyle, connect(mapStateToprops, { addSkillSuggestion }))(SkillForm);
+export default compose(withStyle, connect(null, { addSkillSuggestion }))(SkillForm);

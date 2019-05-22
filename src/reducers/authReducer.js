@@ -1,6 +1,6 @@
 import { AUTH, LOGOUT } from '../actions/types';
 
-// Definig intial State
+// Defining initial State
 const initialState = {
   isAuthenticated: false,
 };

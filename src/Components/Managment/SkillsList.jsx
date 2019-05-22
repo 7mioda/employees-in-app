@@ -24,7 +24,7 @@ const SkillsList = ({
     getAllSkillSuggestion();
   }, []);
   const skillsSuggestionView = skillsSuggestion.map((element) => (
-    <SkillsListRow row={element} onDelete={removeSkillSuggestion} />
+    <SkillsListRow key={element._id} row={element} onDelete={removeSkillSuggestion} />
   ));
 
   return (
@@ -45,7 +45,7 @@ const SkillsList = ({
           </Table>
         </Grid>
         <Grid item xs={4}>
-          <SkillForm />
+          <SkillForm skillsSuggestion={skillsSuggestion} />
         </Grid>
       </Grid>
     </Paper>
@@ -61,8 +61,6 @@ SkillsList.propTypes = {
 
 const mapStateToprops = (state) => ({
   skillsSuggestion: state.skill.skillsSuggestion,
-  getAllSkillSuggestion: state.skill.getAllProjects,
-  removeSkillSuggestion: state.skill.removeSkillSuggestion,
 });
 
 

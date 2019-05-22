@@ -22,11 +22,15 @@ import AddClient from './Components/Managment/AddClient';
 import ClientDetails from './Components/Managment/ClientDetails';
 import SkillForm from './Components/Managment/SkillForm';
 import SkillsList from './Components/Managment/SkillsList';
+import Test from './Components/Calender/Calender';
+import CvGenerator from './Components/CuricuriumVitae/CvGenerator';
 
 //---------------------------------------------
 //  Main Screen
 //---------------------------------------------
-const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
+const App = ({
+  isAuthenticated, getAllEmployees, authorise, isFetching,
+}) => {
   useEffect(() => {
     authorise();
     getAllEmployees();
@@ -52,7 +56,7 @@ const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
                           component={EmployeesManagmentList}
                           isAuthenticated={isAuthenticated}
                         />
-                        <Route
+                        <PrivateRoute
                           path="/app/skill-managment"
                           component={SkillsList}
                           isAuthenticated={isAuthenticated}
@@ -107,7 +111,18 @@ const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
                             />
                           )}
                         />
+                        <Route
+                          path="/app/cv-generator/:employeeId"
+                          render={({ match: { params: { employeeId } } }) => (
+                            <PrivateRoute
+                              component={CvGenerator}
+                              employeeId={employeeId}
+                              isAuthenticated={isAuthenticated}
+                            />
+                          )}
+                        />
                         <Route path="/app/employee-list" render={() => <EmployeeList />} />
+                        <Route path="/app/test" render={() => <Test />} />
                         <Route path="/app/add-skill" render={() => <SkillForm />} />
                         <PrivateRoute path="/app/add-employee" component={AddEmployee} isAuthenticated={isAuthenticated} />
                         <PrivateRoute path="/app/add-client" component={AddClient} isAuthenticated={isAuthenticated} />
@@ -119,9 +134,9 @@ const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
               )}
             />
           </Switch>
+          <Modal />
         </React.Fragment>
       </BrowserRouter>
-      <Modal />
     </div>
   );
 };

@@ -1,5 +1,6 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -13,10 +14,18 @@ import Paper from '@material-ui/core/Paper';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 
 import EmployeesListRow from './EmployeesListRow';
+import { getAllClients } from '../../actions/clientAction';
+import { getAllProjects } from '../../actions/projectAction';
 import { getFiltredEmployees } from '../../selectors/employeesSelector';
 import withStyle from './withStyle';
 
-const ManagmentList = ({ filtredEmployees, className }) => {
+const ManagmentList = ({
+  filtredEmployees, className, getAllClients, getAllProjects,
+}) => {
+  useEffect(() => {
+    getAllClients();
+    getAllProjects();
+  }, []);
   const employeesView = filtredEmployees.map((row) => <EmployeesListRow key={row._id} row={row} />);
   return (
     <Paper className={className}>
@@ -45,10 +54,13 @@ const ManagmentList = ({ filtredEmployees, className }) => {
 ManagmentList.propTypes = {
   className: PropTypes.string.isRequired,
   filtredEmployees: PropTypes.array,
+  getAllClients: PropTypes.func,
+  getAllProjects: PropTypes.func,
 };
 
 const mapStateToprops = (state) => ({
   filtredEmployees: getFiltredEmployees(state),
 });
 
-export default compose(withStyle, connect(mapStateToprops))(ManagmentList);
+export default compose(withStyle,
+  connect(mapStateToprops, { getAllClients, getAllProjects }))(ManagmentList);

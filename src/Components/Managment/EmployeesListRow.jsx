@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
+import Pdf from '@material-ui/icons/PictureAsPdf';
 
 import EmployeeDetails from '../EmployeeCard/EmployeeDetails';
 import { removeEmployee } from '../../actions/employeeAction';
@@ -27,6 +28,7 @@ const EmployeeListRow = ({
       {row.email}
     </TableCell>
     <TableCell className="body" align="center">
+      <NavLink onClick={(event) => event.stopPropagation()} style={{ textDecoration: 'none', color: 'inherit' }} to={{ pathname: `/app/cv-generator/${row._id}` }}> <Pdf className="action-icon" /> </NavLink>
       <NavLink onClick={(event) => event.stopPropagation()} style={{ textDecoration: 'none', color: 'inherit' }} to={{ pathname: `/app/edit-employee/${row._id}` }}>  <Edit className="action-icon" /> </NavLink>
       <DeleteOutline className="action-icon" onClick={(event) => { event.stopPropagation(); removeEmployee(row._id); }} />
     </TableCell>
@@ -40,10 +42,6 @@ EmployeeListRow.propTypes = {
   className: PropTypes.string,
 };
 
-const mapStateToprops = (state) => ({
-  removeEmployee: state.employees.removeEmployee,
-  openModal: state.employees.openModal,
-});
 
 export default compose(withStyle,
-  connect(mapStateToprops, { removeEmployee, openModal }))(EmployeeListRow);
+  connect(null, { removeEmployee, openModal }))(EmployeeListRow);

@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import { ALL_CLIENTS, ADD_PROJECT } from '../actions/types';
 
-const clientsMiddleware = ({ getState, dispatch }) => (next) => (action) => {
+const clientsMiddleware = ({ dispatch }) => (next) => (action) => {
+
   if (action.type === ALL_CLIENTS) {
     const clients = action.payload;
     const newAction = action;

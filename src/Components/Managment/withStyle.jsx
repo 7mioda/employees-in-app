@@ -119,6 +119,7 @@ export default (component) => styled(component)`
 
   .details {
     display: flex;
+    position: relative;
     flex-direction: column;
   }
 

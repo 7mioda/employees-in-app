@@ -103,9 +103,8 @@ Search.propTypes = {
 };
 
 const mapStateToprops = (state) => ({
-  changeSearchKeyWord: state.employees.changeSearchKeyWord,
-  changeSearchCriteria: state.employees.changeSearchCriteria,
   suggetions: getSuggestions(state),
 });
 
-export default compose(withStyle, connect(mapStateToprops, { changeSearchKeyWord, changeSearchCriteria }))(Search);
+export default compose(withStyle,
+  connect(mapStateToprops, { changeSearchKeyWord, changeSearchCriteria }))(Search);

@@ -1,8 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-shadow */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { contains } from 'ramda';
 import FilledInput from '@material-ui/core/FilledInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
@@ -12,14 +14,18 @@ import { Formik } from 'formik';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
+import { openModal } from '../../actions/uiAction';
 import { addSkill, getAllSkillSuggestion } from '../../actions/skillAction';
 import withStyle from './withStyle';
 
-const EmployeeSkillForm = ({ className, addSkill, skillsSuggestion, getAllSkillSuggestion }) => {
+const EmployeeSkillForm = ({
+  className, addSkill, skillsSuggestion, getAllSkillSuggestion, skills, openModal,
+}) => {
   const skillsItems = skillsSuggestion.map((
     { _id, name }
   ) => (<MenuItem key={_id} value={_id}>{name}</MenuItem>
   ));
+  const skillIds = skills.map((skill) => skill.skill._id);
   useEffect(() => getAllSkillSuggestion(), []);
   return (
     <Formik initialValues={{ skill: '', level: '', expYears: '' }}>
@@ -66,7 +72,7 @@ const EmployeeSkillForm = ({ className, addSkill, skillsSuggestion, getAllSkillS
             />
           </TableCell>
           <TableCell>
-            <Button size="small" color="primary" onClick={() => addSkill({ skill, level, expYears })}> Ajouter</Button>
+            <Button size="small" color="primary" onClick={() => { if (contains(skill, skillIds)) { openModal({ title: 'Compétences', body: <h4>Compétences existe deja</h4> }); } else { addSkill({ skill, level, expYears }); } }}> Ajouter</Button>
           </TableCell>
         </TableRow>)
       }
@@ -79,11 +85,12 @@ EmployeeSkillForm.propTypes = {
   className: PropTypes.string.isRequired,
   addSkill: PropTypes.func.isRequired,
   skillsSuggestion: PropTypes.array,
+  getAllSkillSuggestion: PropTypes.func,
 };
 const mapStateToprops = (state) => ({
   addSkill: state.skill.addSkill,
   skillsSuggestion: state.skill.skillsSuggestion,
-  getAllSkillSuggestion: state.skill.getAllSkillSuggestion,
 });
 
-export default compose(withStyle, connect(mapStateToprops, { addSkill, getAllSkillSuggestion }))(EmployeeSkillForm);
+export default compose(withStyle,
+  connect(mapStateToprops, { addSkill, getAllSkillSuggestion, openModal }))(EmployeeSkillForm);

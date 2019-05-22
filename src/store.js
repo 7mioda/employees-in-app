@@ -14,9 +14,10 @@ import form from './middlewares/forms';
 import api from './middlewares/api';
 import auth from './middlewares/auth';
 import clientsMiddleware from './middlewares/clientsMiddleware';
+import apiCallEnhancer from './middlewares/apiCallEnhancer';
 
 // Definig redux middelwares
-const middleware = [logger, auth, form, api, clientsMiddleware];
+const middleware = [logger, auth, form, apiCallEnhancer, api, clientsMiddleware];
 
 // Creating app store
 const store = createStore(

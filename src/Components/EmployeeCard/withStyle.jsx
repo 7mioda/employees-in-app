@@ -159,4 +159,51 @@ export default (component) => styled(component)`
         transform: rotate(110deg) translateY(-150%);
     }
 
+    .typed-text {
+        color: #8CA609;
+        opacity: 0.5;
+        float: left;
+        margin-left: 5%;
+        max-width: 50%;
+        margin-top: 10%;
+        font-family: zig;
+    }
+    .header {
+        flex-grow: 0;
+        max-width: 100%;
+        background-image: linear-gradient(#1D1D1D, #1C1C1C);
+        padding: 0 !important;
+        box-shadow: 0 8px 6px -6px black;
+    }
+
+    .container {
+        background-color: rgba(0,1,0,0.8);
+        margin-top: 10px;
+        margin-bottom: 10px;
+        position: relative;
+        color: white;
+        box-shadow: 0 8px 6px -6px black;
+    }
+
+    .top-border {
+        border-left: 5px solid #546113;
+        width: 80px;
+        border-top: 5px solid #546113;
+        height: 80px;
+        top: 3px;
+        position: absolute;
+        left: 3px;
+    }
+
+    .bottom-border {
+        border-right: 5px solid #546113;
+        width: 80px;
+        border-bottom: 5px solid #546113;
+        height: 80px;
+        bottom: 3px;
+        position: absolute;
+        right: 3px;
+    }
+
+
 `;

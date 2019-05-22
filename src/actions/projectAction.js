@@ -6,6 +6,10 @@ export const getAllProjects = () => ({
     url: '/projects',
     method: 'get',
     success: ({ projects }) => setAllProjects(projects),
+    meta: {
+      namespace: 'projects',
+      check: true,
+    },
   },
 });
 

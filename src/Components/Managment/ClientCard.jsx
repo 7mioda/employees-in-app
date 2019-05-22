@@ -38,7 +38,7 @@ const ClientCard = ({
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
           <Button variant="outlined">
-            {projects.length}
+            { projects ? projects.length : 0}
           </Button>
         </Typography>
       </CardContent>
@@ -52,8 +52,5 @@ ClientCard.propTypes = {
   client: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  removeClient: state.clients.removeClient,
-});
 
-export default compose(withStyle, connect(mapStateToProps, { removeClient }))(ClientCard);
+export default compose(withStyle, connect(null, { removeClient }))(ClientCard);

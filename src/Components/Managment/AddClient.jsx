@@ -4,7 +4,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-shadow */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -12,7 +12,7 @@ import FilledInput from '@material-ui/core/FilledInput';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 
@@ -33,6 +33,20 @@ const AddClient = ({
     setLogo(files[0]);
   };
 
+  const validate = (values) => {
+    const errors = {};
+    if (!values.name) {
+      errors.name = 'Nom client obligatoir';
+    }
+    if (!values.link) {
+      errors.link = 'Lien obligatoir';
+    }
+    if (!values.description) {
+      errors.description = 'description obligatoire';
+    }
+    return errors;
+  };
+
   const actionName = client ? 'Modifier' : 'Ajouter';
 
   const action = (values) => {
@@ -44,13 +58,21 @@ const AddClient = ({
     history.push('/app/clients-managment');
   };
   return (
-    <Formik initialValues={initialValues}>
+    <Formik
+      initialValues={initialValues}
+      validate={validate}
+      onSubmit={({ name, description, link }) => action({
+        name, description, link, logo,
+      })}
+    >
       {({
         handleChange, values: {
           name, link, description,
         },
+        errors,
+        touched,
       }) => (
-        <div className={className}>
+        <Form className={className}>
           <Grid container className="sub-container" spacing={24}>
             <Grid item xs={12}>
               <Typography variant="caption">Ajouter un Client</Typography>
@@ -64,6 +86,9 @@ const AddClient = ({
                 placeholder="Client"
                 style={{ width: '98%' }}
               />
+              {errors.name && touched.name ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.name}</small>
+              ) : null}
             </Grid>
             <Grid item xs={12}>
               <FilledInput
@@ -72,8 +97,11 @@ const AddClient = ({
                 name="link"
                 className="input"
                 placeholder="Lien"
-                style={{ width: '98%' }}
+                style={{ width: '98%', paddingRight: '1%' }}
               />
+              {errors.link? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.link}</small>
+              ) : null}
             </Grid>
             <Grid item xs={8}>
               <FilledInput
@@ -83,6 +111,9 @@ const AddClient = ({
                 value={logo}
                 onChange={handleChange}
               />
+              {errors.image && touched.image ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.image}</small>
+              ) : null}
             </Grid>
             <Grid item xs={4}>
               <input
@@ -106,23 +137,24 @@ const AddClient = ({
                 rows="3"
                 label="Description"
                 placeholder="Description ..."
-                style={{ width: '80%' }}
+                style={{ width: '80%', paddingRight: '19%' }}
                 variant="filled"
               />
+              {errors.description && touched.description ? (
+                <small style={{ color: 'red', paddingTop: '3px' }}>{errors.description}</small>
+              ) : null}
             </Grid>
             <Grid item xs={12}>
               <Button size="small">Annuler</Button>
               <Button
                 size="small"
+                type="submit"
                 color="primary"
-                onClick={() => action({
-                  name, description, link, logo,
-                })}
               > { actionName }
               </Button>
             </Grid>
           </Grid>
-        </div>)
+        </Form>)
       }
     </Formik>
   );
@@ -137,11 +169,9 @@ AddClient.propTypes = {
   client: PropTypes.object,
   history: PropTypes.object,
 };
-const mapStateToprops = (state, props) => ({
-  addClient: state.clients.addClient,
-  updateClient: state.clients.updateClient,
+const mapStateToProps = (state, props) => ({
   client: state.clients.clients.find((client) => client._id === props.clientId),
 });
 
 export default compose(withRouter, withStyle,
-  connect(mapStateToprops, { addClient, updateClient }))(AddClient);
+  connect(mapStateToProps, { addClient, updateClient }))(AddClient);
