@@ -1,9 +1,13 @@
-
-
 // Prepares forms so they can be sent to the server
-const formsMiddleware = () => (next) => async (action) => {
-  if (action.payload && action.payload.meta && action.payload.meta.header === 'multipart/form-data') {
-    const { payload: { data } } = action;
+const formsMiddleware = () => next => async (action) => {
+  if (
+    action.payload
+		&& action.payload.meta
+		&& action.payload.meta.header === 'multipart/form-data'
+  ) {
+    const {
+      payload: { data },
+    } = action;
     const formData = new FormData();
     const auxData = Object.entries(data);
     auxData.forEach((element) => {

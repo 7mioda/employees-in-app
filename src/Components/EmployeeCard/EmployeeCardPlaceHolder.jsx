@@ -9,21 +9,17 @@ import CardActions from '@material-ui/core/CardActions';
 import EmployeePhoto from './EmployeePhoto';
 import withStyle from './withStyle';
 
-
 const EmployeeCardPlaceHolder = ({ className }) => (
-  <div className={className}>
-    <Card className="card">
-      <CardActionArea>
-        <EmployeePhoto
-          className="media"
-          image="/images/placeholder.gif"
-        />
-      </CardActionArea>
-      <CardActions>
-        <p> </p>
-      </CardActions>
-    </Card>
-  </div>
+	<div className={className}>
+		<Card className="card">
+			<CardActionArea>
+				<EmployeePhoto className="media" image="/images/placeholder.gif" />
+			</CardActionArea>
+			<CardActions>
+				<p> </p>
+			</CardActions>
+		</Card>
+	</div>
 );
 
 EmployeeCardPlaceHolder.propTypes = {

@@ -1,8 +1,9 @@
 import cookie from 'react-cookies';
 import { AUTH, LOGOUT } from '../actions/types';
-
-// Manages the authentification status
-const authMiddleware = ({ dispatch }) => (next) => async (action) => {
+//--------------------------------------------------------------------------------------
+//                  Manages the authentication status
+//---------------------------------------------------------------------------------------
+const authMiddleware = ({ dispatch }) => next => async (action) => {
   if (action.type === LOGOUT) {
     cookie.remove('token', { path: '/' });
     cookie.remove('refreshToken', { path: '/' });
@@ -23,6 +24,7 @@ const authMiddleware = ({ dispatch }) => (next) => async (action) => {
   if (token !== undefined) {
     return next(action);
   }
+  return next(action);
 };
 
 export default authMiddleware;

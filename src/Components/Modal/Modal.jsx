@@ -14,34 +14,36 @@ import withStyle from './withStyle';
 import { closeModal } from '../../actions/uiAction';
 
 const Modal = ({
-  className, open, closeModal, modalContent: { title, body, media = null },
+  className,
+  open,
+  closeModal,
+  modalContent: { title, body, media = null },
 }) => (
-  <div className={className}>
-    <Dialog
-      open={open}
-      onClose={closeModal}
-      maxWidth="md"
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      className={className}
-    >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-      <DialogContent>
-        {(media
-        && (
-          <div style={{ width: '500px', height: '100px', overflow: 'hidden' }}>
-            <img src={media} alt="oyez.jpg" className="employee-media" />
-          </div>
-        ))}
-        {body}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={closeModal} color="primary" autoFocus>
-            Fermer
-        </Button>
-      </DialogActions>
-    </Dialog>
-  </div>
+	<div className={className}>
+		<Dialog
+			open={open}
+			onClose={closeModal}
+			maxWidth="md"
+			aria-labelledby="alert-dialog-title"
+			aria-describedby="alert-dialog-description"
+			className={className}
+		>
+			<DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+			<DialogContent>
+				{media && (
+					<div style={{ width: '500px', height: '100px', overflow: 'hidden' }}>
+						<img src={media} alt="oyez.jpg" className="employee-media" />
+					</div>
+				)}
+				{body}
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={closeModal} color="primary" autoFocus>
+					Fermer
+				</Button>
+			</DialogActions>
+		</Dialog>
+	</div>
 );
 
 Modal.propTypes = {
@@ -51,10 +53,15 @@ Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
 };
 
-const mapStateToprops = (state) => ({
+const mapStateToprops = state => ({
   open: state.ui.modalStatus,
-  closeModal: state.ui.closeModal,
   modalContent: state.ui.modalContent,
 });
 
-export default compose(connect(mapStateToprops, { closeModal }), withStyle)(Modal);
+export default compose(
+  connect(
+    mapStateToprops,
+    { closeModal },
+  ),
+  withStyle,
+)(Modal);

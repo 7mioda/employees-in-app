@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import * as actions from '../actions/types';
 
-
 // Definig intial State
 const initialState = {
   employees: [],
@@ -43,7 +42,7 @@ const employeeReducer = (state = initialState, action) => {
       const { employees } = state;
       return {
         ...state,
-        employees: employees.filter((element) => element._id !== payload),
+        employees: employees.filter(element => element._id !== payload),
       };
     }
     case actions.CHANGE_SEARCH_CRITERIA: {

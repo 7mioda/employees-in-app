@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import withStyle from './withStyle';
 
 const Logo = ({ logo, className }) => (
-  <img src={`/images/${logo}`} alt="" className={`${className} logo `} />
+	<img src={`/images/${logo}`} alt="" className={`${className} logo `} />
 );
 
 Logo.propTypes = {
   logo: PropTypes.string.isRequired,
-  className: PropTypes.string,
+  className: PropTypes.string.isRequired,
 };
 
 export default withStyle(Logo);

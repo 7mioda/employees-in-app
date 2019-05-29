@@ -16,43 +16,54 @@ const EmployeeCard = ({
   className,
   openModal,
   employee: {
-    image, firstName, lastName, bio, hireDate, skills,
+    image,
+    firstName,
+    lastName,
+    bio,
+    hireDate,
+    skills,
+    birthDate,
+    experiences,
   },
 }) => {
   const [showDetails, toggleshowDetails] = useState(false);
   const body = (
-    <EmployeeDetails
-      employee={{
-        firstName,
-        lastName,
-        bio,
-        hireDate,
-        skills,
-      }}
-    />
+		<EmployeeDetails
+			employee={{
+			  firstName,
+			  lastName,
+			  bio,
+			  hireDate,
+			  skills,
+			  birthDate,
+			  image,
+			  experiences,
+			}}
+		/>
   );
   return (
-    <div
-      className={className}
-      onClick={() => openModal({ title: '', media: image, body })}
-      onMouseLeave={() => toggleshowDetails(false)}
-      onMouseEnter={() => toggleshowDetails(true)}
-    >
-      <CSSTransition
-        in={showDetails}
-        timeout={300}
-        classNames="name"
-        unmountOnExit
-      >
-        <EmployeeSnippet user={{ firstName, lastName }} />
-      </CSSTransition>
-
-      <Card className="card">
-        <CardActionArea>
-          <EmployeePhoto className="media" image={image} />
-        </CardActionArea>
-      </Card>
-    </div>
+		// eslint-disable-next-line max-len
+		// eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+		<div
+			className={className}
+			onClick={() => openModal({ title: '', body })}
+			onMouseLeave={() => toggleshowDetails(false)}
+			onMouseEnter={() => toggleshowDetails(true)}
+		>
+			<CSSTransition
+				in={showDetails}
+				timeout={300}
+				classNames="name"
+				unmountOnExit
+			>
+				<EmployeeSnippet user={{ firstName, lastName }} />
+			</CSSTransition>
+			<Card className="card">
+				<CardActionArea>
+					<EmployeePhoto className="media" image={image} />
+				</CardActionArea>
+			</Card>
+		</div>
   );
 };
 
@@ -62,14 +73,10 @@ EmployeeCard.propTypes = {
   openModal: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  openModal: state.ui.openModal,
-});
-
 export default compose(
   withStyle,
   connect(
-    mapStateToProps,
+    null,
     { openModal },
   ),
 )(EmployeeCard);

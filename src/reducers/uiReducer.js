@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import * as actions from '../actions/types';
 
-
 // Definig intial State
 const initialState = {
   modalContent: { title: '', body: '' },
