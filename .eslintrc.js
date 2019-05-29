@@ -18,6 +18,7 @@ module.exports = {
  },
  "plugins": [
    "react",
+   "prettier"
  ],
  "parserOptions": {
    "ecmaVersion": 6,
@@ -31,7 +32,7 @@ module.exports = {
      "error",
      "always"
    ],
-   
+
    "arrow-body-style": [
      2,
      "as-needed"

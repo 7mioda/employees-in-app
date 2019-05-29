@@ -11,11 +11,16 @@ import FancyToolbar from './FancyToolBar';
 import Search from './Search';
 import withStyle from './withStyle';
 
-
-const Header = ({ className, isAuthenticated, logout, openMenu }) => (
+const Header = ({
+  className, isAuthenticated, logout, openMenu,
+}) => (
   <div className={className}>
     <AppBar position="fixed" className="app-bar">
-      <FancyToolbar isAuthenticated={isAuthenticated} openMenu={openMenu} logout={logout}>
+      <FancyToolbar
+        isAuthenticated={isAuthenticated}
+        openMenu={openMenu}
+        logout={logout}
+      >
         <Search />
       </FancyToolbar>
     </AppBar>
@@ -35,4 +40,10 @@ const mapStateToprops = (state) => ({
   openMenu: state.ui.openMenu,
 });
 
-export default compose(withStyle, connect(mapStateToprops, { logout, openMenu }))(Header);
+export default compose(
+  withStyle,
+  connect(
+    mapStateToprops,
+    { logout, openMenu },
+  ),
+)(Header);

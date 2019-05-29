@@ -16,17 +16,45 @@ import { removeEmployee } from '../../actions/employeeAction';
 import { openModal } from '../../actions/uiAction';
 import withStyle from './withStyle';
 
-const ManagmentRow = ({ className, row, removeEmployee, openModal }) => (
-  <TableRow className={`${className} row`} onClick={() => openModal({ title: 'Détails employee', body: <EmployeeDetails employee={row} /> })}>
-    <TableCell className="body" align="center">{row.firstName}</TableCell>
-    <TableCell className="body" align="center">{row.lastName}</TableCell>
-    <TableCell className="body" align="center">{row.expYears}</TableCell>
+const ManagmentRow = ({
+  className, row, removeEmployee, openModal,
+}) => (
+  <TableRow
+    className={`${className} row`}
+    onClick={() => openModal({
+      title: 'Détails employee',
+      body: <EmployeeDetails employee={row} />,
+    })
+    }
+  >
+    <TableCell className="body" align="center">
+      {row.firstName}
+    </TableCell>
+    <TableCell className="body" align="center">
+      {row.lastName}
+    </TableCell>
+    <TableCell className="body" align="center">
+      {row.expYears}
+    </TableCell>
     <TableCell className="body" align="center">
       {row.email}
     </TableCell>
     <TableCell className="body" align="center">
-      <NavLink onClick={(event) => event.stopPropagation()} style={{ textDecoration: 'none', color: 'inherit' }} to={{ pathname: `/app/edit-employee/${row._id}` }}>  <Edit className="action-icon" /> </NavLink>
-      <DeleteOutline className="action-icon" onClick={(event) => { event.stopPropagation(); removeEmployee(row._id); }} />
+      <NavLink
+        onClick={(event) => event.stopPropagation()}
+        style={{ textDecoration: 'none', color: 'inherit' }}
+        to={{ pathname: `/app/edit-employee/${row._id}` }}
+      >
+        {' '}
+        <Edit className="action-icon" />{' '}
+      </NavLink>
+      <DeleteOutline
+        className="action-icon"
+        onClick={(event) => {
+          event.stopPropagation();
+          removeEmployee(row._id);
+        }}
+      />
     </TableCell>
   </TableRow>
 );
@@ -43,4 +71,10 @@ const mapStateToprops = (state) => ({
   openModal: state.employees.openModal,
 });
 
-export default compose(withStyle, connect(mapStateToprops, { removeEmployee, openModal }))(ManagmentRow);
+export default compose(
+  withStyle,
+  connect(
+    mapStateToprops,
+    { removeEmployee, openModal },
+  ),
+)(ManagmentRow);

@@ -19,7 +19,9 @@ import LinearProgress from './Components/Progress/LinearProgress';
 //---------------------------------------------
 //  Main Screen
 //---------------------------------------------
-const App = ({ isAuthenticated, getAllEmployees, authorise, isFetching }) => {
+const App = ({
+  isAuthenticated, getAllEmployees, authorise, isFetching,
+}) => {
   useEffect(() => {
     authorise();
     getAllEmployees();

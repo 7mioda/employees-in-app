@@ -16,9 +16,10 @@ import { Formik, Form } from 'formik';
 
 import { login as loginAction } from '../../actions/authAction';
 
-
 const Login = ({ isAuthenticated, loginAction }) => {
-  if (isAuthenticated) { return <Redirect to="/app/empolyee-managment" />; }
+  if (isAuthenticated) {
+    return <Redirect to="/app/empolyee-managment" />;
+  }
   return (
     <Formik initialValues={{ email: '', password: '' }}>
       {({ handleChange, values: { email, password } }) => (
@@ -64,11 +65,12 @@ const Login = ({ isAuthenticated, loginAction }) => {
                 className="button"
                 onClick={() => loginAction({ email, password })}
               >
-              Login
+								Login
               </Button>
             </CardContent>
           </Card>
-        </Form>)}
+        </Form>
+      )}
     </Formik>
   );
 };
@@ -83,4 +85,7 @@ const mapStateToprops = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToprops, { loginAction })(Login);
+export default connect(
+  mapStateToprops,
+  { loginAction },
+)(Login);

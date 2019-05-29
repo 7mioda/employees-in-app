@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import * as actions from './types';
 import { openModal } from './uiAction';
 

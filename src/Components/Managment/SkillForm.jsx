@@ -16,11 +16,7 @@ import withStyle from './withStyle';
 
 const SkillForm = ({ className, addSkill }) => (
   <Formik initialValues={{ name: '', level: '', expYears: '' }}>
-    {({
-      handleChange, values: {
-        name, level, expYears,
-      },
-    }) => (
+    {({ handleChange, values: { name, level, expYears } }) => (
       <div>
         <div className={className}>
           <Typography variant="caption">Ajouter une compétences</Typography>
@@ -57,13 +53,19 @@ const SkillForm = ({ className, addSkill }) => (
             style={{ width: '94%' }}
           />
           <Button size="small">Annuler</Button>
-          <Button size="small" color="primary" onClick={() => addSkill({ name, level, expYears })}> Ajouter</Button>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => addSkill({ name, level, expYears })}
+          >
+            {' '}
+						Ajouter
+          </Button>
         </div>
-      </div>)
-    }
+      </div>
+    )}
   </Formik>
 );
-
 
 SkillForm.propTypes = {
   className: PropTypes.string.isRequired,
@@ -73,4 +75,10 @@ const mapStateToprops = (state) => ({
   addSkill: state.skill.addSkill,
 });
 
-export default compose(withStyle, connect(mapStateToprops, { addSkill }))(SkillForm);
+export default compose(
+  withStyle,
+  connect(
+    mapStateToprops,
+    { addSkill },
+  ),
+)(SkillForm);
